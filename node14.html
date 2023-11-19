@@ -1,0 +1,1062 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>2.4 Output Modules </TITLE>
+<META NAME="description" CONTENT="2.4 Output Modules ">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="next" HREF="node15.html">
+<LINK REL="previous" HREF="node13.html">
+<LINK REL="next" HREF="node15.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node15.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node10.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node13.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html465"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node15.html">2.5 Dynamic Modules</A>
+<B> Up:</B> <A
+ HREF="node10.html">2. Configuring Snort</A>
+<B> Previous:</B> <A
+ HREF="node13.html">2.3 Performance Profiling</A>
+ &nbsp; <B>  <A ID="tex2html466"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A ID="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A ID="tex2html467"
+  HREF="node14.html#SECTION00341000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> alert_syslog </A>
+<UL>
+<LI><A ID="tex2html468"
+  HREF="node14.html#SECTION00341100000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> Available Keywords</A>
+<LI><A ID="tex2html469"
+  HREF="node14.html#SECTION00341200000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">2</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html470"
+  HREF="node14.html#SECTION00342000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN> alert_fast</A>
+<UL>
+<LI><A ID="tex2html471"
+  HREF="node14.html#SECTION00342100000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html472"
+  HREF="node14.html#SECTION00343000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">3</SPAN> alert_full</A>
+<UL>
+<LI><A ID="tex2html473"
+  HREF="node14.html#SECTION00343100000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html474"
+  HREF="node14.html#SECTION00344000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN> alert_unixsock</A>
+<UL>
+<LI><A ID="tex2html475"
+  HREF="node14.html#SECTION00344100000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html476"
+  HREF="node14.html#SECTION00345000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN> log_tcpdump</A>
+<UL>
+<LI><A ID="tex2html477"
+  HREF="node14.html#SECTION00345100000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html478"
+  HREF="node14.html#SECTION00346000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN> database </A>
+<UL>
+<LI><A ID="tex2html479"
+  HREF="node14.html#SECTION00346100000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html480"
+  HREF="node14.html#SECTION00347000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">7</SPAN> csv</A>
+<UL>
+<LI><A ID="tex2html481"
+  HREF="node14.html#SECTION00347100000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html482"
+  HREF="node14.html#SECTION00348000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">8</SPAN> unified</A>
+<UL>
+<LI><A ID="tex2html483"
+  HREF="node14.html#SECTION00348100000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html484"
+  HREF="node14.html#SECTION00349000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">9</SPAN> unified 2</A>
+<UL>
+<LI><A ID="tex2html485"
+  HREF="node14.html#SECTION00349100000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html486"
+  HREF="node14.html#SECTION003410000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">10</SPAN> alert_prelude</A>
+<UL>
+<LI><A ID="tex2html487"
+  HREF="node14.html#SECTION003410100000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">10</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html488"
+  HREF="node14.html#SECTION003411000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">11</SPAN> log null</A>
+<UL>
+<LI><A ID="tex2html489"
+  HREF="node14.html#SECTION003411100000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">11</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html490"
+  HREF="node14.html#SECTION003412000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">12</SPAN> alert_aruba_action</A>
+<UL>
+<LI><A ID="tex2html491"
+  HREF="node14.html#SECTION003412100000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">12</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A ID="SECTION00340000000000000000"></A><A ID="output_config"></A>
+<BR>
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN> Output Modules 
+</H1>
+
+<P>
+Output modules are new as of version 1.6. They allow Snort to be much
+more flexible in the formatting and presentation of output to its
+users. The output modules are run when the alert or logging subsystems
+of Snort are called, after the preprocessors and detection engine.
+The format of the directives in the rules file is very similar to
+that of the preprocessors.
+
+<P>
+Multiple output plugins may be specified in the Snort configuration
+file. When multiple plugins of the same type (log, alert) are specified,
+they are stacked and called in sequence when an
+event occurs. As with the standard logging and alerting systems, output
+plugins send their data to /var/log/snort by default or to a user
+directed directory (using the -l command line
+switch).
+
+<P>
+Output modules are loaded at runtime by specifying the output keyword
+in the rules file:
+
+<P>
+<PRE>
+output &lt;name&gt;: &lt;options&gt;
+</PRE>
+
+<P>
+
+<DIV class="CENTER"><A ID="output_config_example"></A><A ID="3239"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Output Module Configuration Example</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 6.30ex; " SRC="img23.svg"
+ ALT="\begin{figure}\begin{verbatim}output alert_syslog: log_auth log_alert\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00341000000000000000"></A><A ID="alert_syslog_lable"></A>
+<BR>
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> alert_syslog 
+</H2>
+
+<P>
+This module sends alerts to the syslog facility (much like the -s
+command line switch). This module also allows the user to specify
+the logging facility and priority within the Snort rules file, giving
+users greater flexibility in logging alerts.
+
+<P>
+
+<H3><A ID="SECTION00341100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> Available Keywords</A>
+</H3>
+
+<P>
+
+<H4><A ID="SECTION00341110000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> Facilities</A>
+</H4>
+
+<P>
+
+<UL>
+<LI><SPAN  CLASS="texttt">log_auth</SPAN> 
+</LI>
+<LI><SPAN  CLASS="texttt">log_authpriv</SPAN> 
+</LI>
+<LI><SPAN  CLASS="texttt">log_daemon</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_local0</SPAN> 
+</LI>
+<LI><SPAN  CLASS="texttt">log_local1</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_local2</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_local3</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_local4</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_local5</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_local6</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_local7</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_user</SPAN>
+</LI>
+</UL>
+
+<P>
+
+<H4><A ID="SECTION00341120000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">2</SPAN> Priorities</A>
+</H4>
+
+<P>
+
+<UL>
+<LI><SPAN  CLASS="texttt">log_emerg</SPAN> 
+</LI>
+<LI><SPAN  CLASS="texttt">log_alert</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_crit</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_err</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_warning</SPAN> 
+</LI>
+<LI><SPAN  CLASS="texttt">log_notice</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_info</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_debug</SPAN>
+</LI>
+</UL>
+
+<P>
+
+<H4><A ID="SECTION00341130000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">3</SPAN> Options</A>
+</H4>
+
+<P>
+
+<UL>
+<LI><SPAN  CLASS="texttt">log_cons</SPAN> 
+</LI>
+<LI><SPAN  CLASS="texttt">log_ndelay</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_perror</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">log_pid</SPAN>
+</LI>
+</UL>
+
+<P>
+
+<H3><A ID="SECTION00341200000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">2</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+alert_syslog: &lt;facility&gt; &lt;priority&gt; &lt;options&gt;
+</PRE>
+
+<P>
+
+        
+        <p><table border="1"><tr><td><b>
+        Note:&nbsp;&nbsp;</b>
+As WIN32 does not run syslog servers locally by default, a hostname and port
+can be passed as options.  The default host is 127.0.0.1.  The default port is
+514.
+        
+        </b></td></tr></table></p>
+
+<P>
+<PRE>
+output alert_syslog: [host=&lt;hostname[:&lt;port&gt;],] &lt;facility&gt; &lt;priority&gt; &lt;options&gt;
+</PRE>
+
+<P>
+
+<DIV class="CENTER"><A ID="syslog_example"></A><A ID="3241"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Syslog Configuration Example</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 6.30ex; " SRC="img24.svg"
+ ALT="\begin{figure}\begin{verbatim}output alert_syslog: 10.1.1.1:514, &lt;facility&gt; &lt;priority&gt; &lt;options&gt;\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00342000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN> alert_fast</A>
+</H2>
+
+<P>
+This will print Snort alerts in a quick one-line format to a specified
+output file. It is a faster alerting method than full alerts because
+it doesn't need to print all of the packet headers to the output file
+
+<P>
+
+<H3><A ID="SECTION00342100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+alert_fast: &lt;output filename&gt;
+</PRE>
+
+<DIV class="CENTER"><A ID="fast_alert_configuration"></A><A ID="3242"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Fast Alert Configuration</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 6.30ex; " SRC="img25.svg"
+ ALT="\begin{figure}\begin{verbatim}output alert_fast: alert.fast\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00343000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">3</SPAN> alert_full</A>
+</H2>
+
+<P>
+This will print Snort alert messages with full packet headers. The alerts will
+be written in the default logging directory (/var/log/snort) or in
+the logging directory specified at the command line.
+
+<P>
+Inside the logging directory, a directory will be created per IP.
+These files will be decoded packet dumps of the packets that triggered
+the alerts. The creation of these files slows Snort down considerably.
+This output method is discouraged for all but the lightest traffic
+situations.
+
+<P>
+
+<H3><A ID="SECTION00343100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+alert_full: &lt;output filename&gt;
+</PRE>
+
+<DIV class="CENTER"><A ID="full_alert_configuration"></A><A ID="3243"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Full Alert Configuration</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 6.30ex; " SRC="img26.svg"
+ ALT="\begin{figure}\begin{verbatim}output alert_full: alert.full\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00344000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN> alert_unixsock</A>
+</H2>
+
+<P>
+Sets up a UNIX domain socket and sends alert reports to it. External
+programs/processes can listen in on this socket and receive Snort
+alert and packet data in real time. This is currently an experimental
+interface.
+
+<P>
+
+<H3><A ID="SECTION00344100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+alert_unixsock
+</PRE>
+
+<DIV class="CENTER"><A ID="unixsock_configuration"></A><A ID="3244"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+UNIXSock Alert Configuration</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 6.30ex; " SRC="img27.svg"
+ ALT="\begin{figure}\begin{verbatim}output alert_unixsock\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00345000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN> log_tcpdump</A>
+</H2>
+
+<P>
+The log_tcpdump module logs packets to a tcpdump-formatted file.
+This is useful for performing post-process analysis on collected
+traffic with the vast number of tools that are available for examining
+tcpdump-formatted files. This module only takes a single argument: the
+name of the output file. Note that the file name will have the UNIX
+timestamp in seconds appended the file name. This is so that data from
+separate Snort runs can be kept distinct.
+
+<P>
+
+<H3><A ID="SECTION00345100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+log_tcpdump: &lt;output filename&gt;
+</PRE>
+
+<DIV class="CENTER"><A ID="tcpdump_output_configuration"></A><A ID="3245"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Tcpdump Output Module Configuration
+Example</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 6.30ex; " SRC="img28.svg"
+ ALT="\begin{figure}\begin{verbatim}output log_tcpdump: snort.log\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00346000000000000000"></A><A ID="database_section"></A>
+<BR>
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN> database 
+</H2>
+
+<P>
+This module from Jed Pickel sends Snort data to a variety of SQL databases.
+More information on installing and configuring this module can be
+found on the [91]incident.org web page. The arguments to this
+plugin are the name of the database to be logged to and a parameter
+list. Parameters are specified with the format parameter = argument.
+see Figure <A HREF="#database_output_config"><IMG  ALT="[*]" SRC="crossref.png"></A> for example usage.
+
+<P>
+
+<H3><A ID="SECTION00346100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+database: &lt;log | alert&gt;, &lt;database type&gt;, &lt;parameter list&gt;
+</PRE>
+The following parameters are available:
+
+<P>
+<DL>
+<DD>
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">host</SPAN></STRONG></DT>
+<DD>- Host to connect to. If a non-zero-length string is specified, TCP/IP communication is used. Without a host name, it will connect using a local UNIX domain socket.
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">port</SPAN></STRONG></DT>
+<DD>- Port number to connect to at the server host, or socket filename extension for UNIX-domain connections. 
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">dbname</SPAN></STRONG></DT>
+<DD>- Database name 
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">user</SPAN></STRONG></DT>
+<DD>- Database username for authentication
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">password</SPAN></STRONG></DT>
+<DD>- Password used if the database demands password authentication
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">sensor_name</SPAN></STRONG></DT>
+<DD>- Specify your own name for this Snort sensor. If you do not specify a name, one will be generated automatically
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">encoding</SPAN></STRONG></DT>
+<DD>- Because the packet payload and option data is binary, there is no one simple and portable way to store it in a database. Blobs are not used because they are not portable across databases. So i leave the encoding option to you. You can choose from the following options. Each has its own advantages and disadvantages:
+<P>
+<DL>
+<DD>
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">hex</SPAN></STRONG></DT>
+<DD>(default) - Represent binary data as a hex string. 
+
+<P>
+<DL>
+<DD>
+</DD>
+<DT><STRONG>Storage&nbsp;requirements</STRONG></DT>
+<DD>- 2x the size of the binary
+             
+</DD>
+<DT><STRONG>Searchability</STRONG></DT>
+<DD>- very good 
+             
+</DD>
+<DT><STRONG>Human&nbsp;readability</STRONG></DT>
+<DD>- not readable unless you are a true geek, requires post processing
+       
+</DD>
+</DL>
+       
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">base64</SPAN></STRONG></DT>
+<DD>- Represent binary data as a base64 string. 
+
+<P>
+<DL>
+<DD>
+</DD>
+<DT><STRONG>Storage&nbsp;requirements</STRONG></DT>
+<DD>- <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.31ex; vertical-align: -0.12ex; " SRC="img29.svg"
+ ALT="$\sim$"></SPAN>1.3x the size of the binary 
+            
+</DD>
+<DT><STRONG>Searchability</STRONG></DT>
+<DD>- impossible without post processing 
+            
+</DD>
+<DT><STRONG>Human&nbsp;readability</STRONG></DT>
+<DD>- not readable requires post processing
+      
+</DD>
+</DL>
+
+<P>
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">ascii</SPAN></STRONG></DT>
+<DD>- Represent binary data as an ASCII string. This is
+      the only option where you will actually lose data. Non-ASCII
+      Data is represented as a `.'. If you choose this option, then data
+      for IP and TCP options will still be represented as hex because
+      it does not make any sense for that data to be ASCII.
+
+<P>
+<DL>
+<DD>
+</DD>
+<DT><STRONG>Storage&nbsp;requirements</STRONG></DT>
+<DD>- slightly larger than the binary because
+some characters are escaped (&amp;,<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>,<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN>)
+</DD>
+<DT><STRONG>Searchability</STRONG></DT>
+<DD>- very good for searching for a text string impossible
+if you want to search for binary 
+</DD>
+<DT><STRONG>human&nbsp;readability</STRONG></DT>
+<DD>- very good
+</DD>
+</DL>
+</DD>
+</DL>
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">detail</SPAN></STRONG></DT>
+<DD>- How much detailed data do you want to store? The options
+are:
+
+<P>
+<DL>
+<DD>
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">full</SPAN></STRONG></DT>
+<DD>(default) - Log all details of a packet that caused an alert
+(including IP/TCP options and the payload)
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">fast</SPAN></STRONG></DT>
+<DD>- Log only a minimum amount of data. You severely limit the potential
+of some analysis applications if you choose this option, but this
+is still the best choice for some applications. The following fields
+are logged: <SPAN  CLASS="texttt">timestamp</SPAN>, <SPAN  CLASS="texttt">signature</SPAN>, <SPAN  CLASS="texttt">source ip</SPAN>, <SPAN  CLASS="texttt">destination ip</SPAN>, <SPAN  CLASS="texttt">source
+port</SPAN>, <SPAN  CLASS="texttt">destination port</SPAN>, <SPAN  CLASS="texttt">tcp flags</SPAN>, and <SPAN  CLASS="texttt">protocol</SPAN>)
+</DD>
+</DL>
+</DD>
+</DL>
+Furthermore, there is a logging method and database type that must
+be defined. There are two logging types available, <SPAN  CLASS="texttt">log</SPAN> and <SPAN  CLASS="texttt">alert</SPAN>.
+Setting the type to log attaches the database logging functionality
+to the log facility within the program. If you set the type to log,
+the plugin will be called on the log output chain. Setting the type
+to alert attaches the plugin to the alert output chain within the
+program.
+
+<P>
+There are five database types available in the current version of the plugin.
+These are <SPAN  CLASS="texttt">mssql</SPAN>, <SPAN  CLASS="texttt">mysql</SPAN>, <SPAN  CLASS="texttt">postgresql</SPAN>, <SPAN  CLASS="texttt">oracle</SPAN>, and <SPAN  CLASS="texttt">odbc</SPAN>.  
+Set the type to match
+the database you are using.
+
+<P>
+
+        
+        <p><table border="1"><tr><td><b>
+        Note:&nbsp;&nbsp;</b>
+The database output plugin does not have the ability to handle alerts that are
+generated by using the <SPAN  CLASS="texttt">tag</SPAN> keyword.  See section <A HREF="node23.html#tag_section"><IMG  ALT="[*]" SRC="crossref.png"></A> for more
+details.
+        
+        </b></td></tr></table></p>
+
+<P>
+
+<DIV class="CENTER"><A ID="database_output_config"></A><A ID="3247"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Database Output Plugin Configuration</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 6.30ex; " SRC="img30.svg"
+ ALT="\begin{figure}\begin{verbatim}output database: log, mysql, dbname=snort user=snort host=localhost password=xyz\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00347000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">7</SPAN> csv</A>
+</H2>
+
+<P>
+The csv output plugin allows alert data to be written in a format
+easily importable to a database. The plugin requires 2 arguments:
+a full pathname to a file and the output formatting option. 
+
+<P>
+The list of formatting options is below. If the formatting option
+is default, the output is in the order the formatting option is listed.
+
+<P>
+
+<UL>
+<LI><SPAN  CLASS="texttt">timestamp</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">sig_generator</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">sig_id</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">sig_rev</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">msg</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">proto</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">src</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">srcport</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">dst</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">dstport</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">ethsrc</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">ethdst</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">ethlen</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">tcpflags</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">tcpseq</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">tcpack</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">tcplen</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">tcpwindow</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">ttl</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">tos</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">id</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">dgmlen</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">iplen</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">icmptype</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">icmpcode</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">icmpid</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">icmpseq</SPAN>
+</LI>
+</UL>
+
+<P>
+
+<H3><A ID="SECTION00347100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+output alert_csv: &lt;filename&gt; &lt;format&gt;
+</PRE>
+
+<DIV class="CENTER"><A ID="csv_output_configuration"></A><A ID="3248"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+CSV Output Configuration</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 11.85ex; " SRC="img31.svg"
+ ALT="\begin{figure}\begin{verbatim}output alert_csv: /var/log/alert.csv defaultoutput alert_csv: /var/log/alert.csv timestamp, msg\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00348000000000000000"></A><A ID="unified"></A>
+<BR>
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">8</SPAN> unified
+</H2>
+
+<P>
+The unified output plugin is designed to be the fastest possible method of
+logging Snort events.  The unified output plugin logs events in binary format, 
+allowing another programs to handle complex logging mechanisms that would
+otherwise diminish the performance of Snort.
+
+<P>
+The name <SPAN  CLASS="textit">unified</SPAN> is a misnomer, as the unified output plugin creates two
+different files, an <SPAN  CLASS="textit">alert</SPAN> file, and a <SPAN  CLASS="textit">log</SPAN> file.   The alert file
+contains the high-level details of an event (eg: IPs, protocol, port, message
+id).  The log file contains the detailed packet information (a packet dump with
+the associated event ID).  Both file types are written in a bimary format
+described in <SPAN  CLASS="textit">spo_unified.h</SPAN>.
+
+<P>
+
+        
+        <p><table border="1"><tr><td><b>
+        Note:&nbsp;&nbsp;</b>
+Files have the file creation time (in Unix Epoch format) appended to each
+file when it is created.
+        
+        </b></td></tr></table></p>
+
+<P>
+
+<H3><A ID="SECTION00348100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+output alert_unified: &lt;base file name&gt; [, &lt;limit &lt;file size limit in MB&gt;]
+output log_unified: &lt;base file name&gt; [, &lt;limit &lt;file size limit in MB&gt;]
+</PRE>
+
+<P>
+
+<DIV class="CENTER"><A ID="unified_example"></A><A ID="3250"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Unified Configuration Example</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 9.08ex; " SRC="img32.svg"
+ ALT="\begin{figure}\begin{verbatim}output alert_unified: snort.alert, limit 128
+output log_unified: snort.log, limit 128\end{verbatim}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00349000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">9</SPAN> unified 2</A>
+</H2>
+
+<P>
+The unified2 output plugin is a replacement for the unified output plugin.  It
+has the same performance characteristics, but a slightly different logging 
+format.  See section <A HREF="#unified"><IMG  ALT="[*]" SRC="crossref.png"></A> on unified logging for more information.
+
+<P>
+Unified2 can work in one of three modes, packet logging, alert logging, or
+true unified logging.  Packet logging includes a capture of the entire packet
+and is specified with <SPAN  CLASS="texttt">log_unfied2</SPAN>.  Likewise, alert logging will only
+log events and is specified with <SPAN  CLASS="texttt">alert_unified2</SPAN>.  To include both 
+logging styles in a single, unified file, simply specify <SPAN  CLASS="texttt">unified2</SPAN>.
+
+<P>
+
+        
+        <p><table border="1"><tr><td><b>
+        Note:&nbsp;&nbsp;</b>
+By default, unified 2 files have the file creation time (in Unix Epoch format) 
+appended to each file when it is created.  
+        
+        </b></td></tr></table></p>
+
+<P>
+
+<H3><A ID="SECTION00349100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+output alert_unified2: &lt;base file name&gt; [, &lt;limit &lt;file size limit in MB&gt; ] [, nostamp]
+output log_unified2: &lt;base file name&gt; [, &lt;limit &lt;file size limit in MB&gt;] [, nostamp]
+output unified2: &lt;base file name&gt; [, &lt;limit &lt;file size limit in MB&gt;] [, nostamp]
+</PRE>
+
+<P>
+
+<DIV class="CENTER"><A ID="unified_example"></A><A ID="3251"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Unified Configuration Example</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 11.85ex; " SRC="img33.svg"
+ ALT="\begin{figure}\begin{verbatim}output alert_unified2: snort.alert, limit 128, n...
+...stamp
+output unified2: merged.log, limit 128, nostamp\end{verbatim}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION003410000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">10</SPAN> alert_prelude</A>
+</H2>
+
+<P>
+
+        
+        <p><table border="1"><tr><td><b>
+        Note:&nbsp;&nbsp;</b>
+support to use alert_prelude is not built in by default.  To use alert_prelude, snort must be built with the &ndash;enable-prelude arguement passed to ./configure.
+        
+        </b></td></tr></table></p>
+
+<P>
+The alert_prelude output plugin is used to log to a Prelude database.  For more information on Prelude, see http://www.prelude-ids.org/.
+
+<P>
+
+<H3><A ID="SECTION003410100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">10</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+output alert_prelude: profile=&lt;name of prelude profile&gt; \
+                      [ info=&lt;priority number for info priority alerts&gt;] \
+                      [ low=&lt;priority number for low priority alerts&gt;] \
+                      [ medium=&lt;priority number for medium priority alerts&gt;]
+</PRE>
+
+<P>
+
+<DIV class="CENTER"><A ID="prelude_example"></A><A ID="3252"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+alert_prelude configuration example</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 6.30ex; " SRC="img34.svg"
+ ALT="\begin{figure}\begin{verbatim}output alert_prelude: profile=snort info=4 low=3 medium=2\end{verbatim}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION003411000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">11</SPAN> log null</A>
+</H2>
+
+<P>
+Sometimes it is useful to be able to create rules that will alert
+to certain types of traffic but will not cause packet log entries.
+In Snort 1.8.2, the log_null plugin was introduced. This is equivalent
+to using the -n command line option but it is able to work within
+a ruletype.
+
+<P>
+
+<H3><A ID="SECTION003411100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">11</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+output log_null
+</PRE>
+
+<DIV class="CENTER"><A ID="log_null_usage_example"></A><A ID="3253"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Log Null Usage Example</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 22.64ex; " SRC="img35.svg"
+ ALT="\begin{figure}\begin{verbatim}output log_null  ..."></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION003412000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">12</SPAN> alert_aruba_action</A>
+</H2>
+
+<P>
+
+        
+        <p><table border="1"><tr><td><b>
+        Note:&nbsp;&nbsp;</b>
+Support to use alert_aruba_action is not built in by default.  To
+use alert_aruba_action, snort must be built with the &ndash;enable-aruba
+arguement passed to ./configure.
+        
+        </b></td></tr></table></p>
+
+<P>
+Communicates with an Aruba Networks wireless mobility controller to
+change the status of authenticated users.  This allows Snort to take
+action against users on the Aruba controller to control their network
+privilege levels.
+
+<P>
+For more information on Aruba Networks access control, see
+http://www.arubanetworks.com/.
+
+<P>
+
+<H3><A ID="SECTION003412100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">12</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+output alert_aruba_action: &lt;controller address&gt; &lt;secrettype&gt; &lt;secret&gt; &lt;action&gt;
+</PRE>
+The following parameters are required:
+
+<P>
+<DL>
+<DD>
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">controller address</SPAN></STRONG></DT>
+<DD>- Aruba mobility controller address.
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">secrettype</SPAN></STRONG></DT>
+<DD>- Secret type, one of "sha1", "md5" or "cleartext".
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">secret</SPAN></STRONG></DT>
+<DD>- Authentication secret configured on the Aruba mobility controller with the "aaa xml-api client" configuration command, represented as a sha1 or md5 hash, or a cleartext password.
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">action</SPAN></STRONG></DT>
+<DD>- Action to apply to the source IP address of the traffic generating an alert.
+<P>
+<DL>
+<DD>
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">blacklist</SPAN></STRONG></DT>
+<DD>- Blacklist the station by disabling all radio communication.
+      
+</DD>
+<DT><STRONG><SPAN  CLASS="texttt">setrole:rolename</SPAN></STRONG></DT>
+<DD>- Change the user  role to the specified rolename.
+  
+</DD>
+</DL>
+</DD>
+</DL>
+
+<P>
+
+<DIV class="CENTER"><A ID="aruba_action_configuration"></A><A ID="3254"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Aruba Action Alert Configuration</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 6.30ex; " SRC="img36.svg"
+ ALT="\begin{figure}\begin{verbatim}output alert_aruba_action: 10.3.9.6 cleartext foobar setrole:quarantine_role\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="node15.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node10.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node13.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html465"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node15.html">2.5 Dynamic Modules</A>
+<B> Up:</B> <A
+ HREF="node10.html">2. Configuring Snort</A>
+<B> Previous:</B> <A
+ HREF="node13.html">2.3 Performance Profiling</A>
+ &nbsp; <B>  <A ID="tex2html466"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

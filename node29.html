@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>4.1 MMAPed pcap</TITLE>
+<META NAME="description" CONTENT="4.1 MMAPed pcap">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="previous" HREF="node28.html">
+<LINK REL="next" HREF="node30.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node30.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node28.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node28.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html787"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node30.html">5. Dynamic Modules</A>
+<B> Up:</B> <A
+ HREF="node28.html">4. Making Snort Faster</A>
+<B> Previous:</B> <A
+ HREF="node28.html">4. Making Snort Faster</A>
+ &nbsp; <B>  <A ID="tex2html788"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A ID="SECTION00510000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> MMAPed pcap</A>
+</H1>
+
+<P>
+On Linux, a modified version of libpcap is available that implements a shared memory ring buffer.  Phil Woods (cpw@lanl.gov) is the current maintainer of the libpcap implementation of the shared memory ring buffer.  The shared memory ring buffer libpcap can be downloaded from his website at http://public.lanl.gov/cpw/.
+
+<P>
+Instead of the normal mechanism of copying the packets from kernel memory into userland memory, by using a shared memory ring buffer, libpcap is able to queue packets into a shared buffer that Snort is able to read directly.  This change speeds up Snort by limiting the number of times the packet is copied before Snort gets to perform its detection upon it.
+
+<P>
+Once Snort linked against the shared memory libpcap, enabling the ring buffer is done via setting the enviornment variable <SPAN  CLASS="textit">PCAP_FRAMES</SPAN>.  <SPAN  CLASS="textit">PCAP_FRAMES</SPAN> is the size of the ring buffer.  According to Phil, the maximum size is 32768, as this appears to be the maximum number of iovecs the kernel can handle.  By using <SPAN  CLASS="textit">PCAP_FRAMES=max</SPAN>, libpcap will automatically use the most frames possible.  On Ethernet, this ends up being 1530 bytes per frame, for a total of around 52 Mbytes of memory for the ring buffer alone.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="node30.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node28.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node28.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html787"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node30.html">5. Dynamic Modules</A>
+<B> Up:</B> <A
+ HREF="node28.html">4. Making Snort Faster</A>
+<B> Previous:</B> <A
+ HREF="node28.html">4. Making Snort Faster</A>
+ &nbsp; <B>  <A ID="tex2html788"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

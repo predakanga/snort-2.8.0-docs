@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>3.9 Event Suppression</TITLE>
+<META NAME="description" CONTENT="3.9 Event Suppression">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="next" HREF="node26.html">
+<LINK REL="previous" HREF="node24.html">
+<LINK REL="next" HREF="node26.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node26.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node24.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html769"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node26.html">3.10 Snort Multi-Event Logging (Event</A>
+<B> Up:</B> <A
+ HREF="node16.html">3. Writing Snort Rules: How</A>
+<B> Previous:</B> <A
+ HREF="node24.html">3.8 Event Thresholding</A>
+ &nbsp; <B>  <A ID="tex2html770"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A ID="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A ID="tex2html771"
+  HREF="node25.html#SECTION00491000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html772"
+  HREF="node25.html#SECTION00492000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">2</SPAN> Examples</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A ID="SECTION00490000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">9</SPAN> Event Suppression</A>
+</H1>
+Event suppression stops specified events from firing without removing the rule
+from the rule base. Suppression uses a CIDR block notation to select specific
+networks and users for suppression.  Suppression tests are performed prior to
+either standard or global thresholding tests.
+
+<P>
+Suppression commands are standalone commands that reference generators, SIDs,
+and IP addresses via a CIDR block. This allows a rule to be completely
+suppressed, or suppressed when the causative traffic is going to or coming
+from a specific IP or group of IP addresses.
+
+<P>
+You may apply multiple suppression commands to a SID.  You may also combine one
+threshold command and several suppression commands to the same SID.  
+
+<P>
+
+<H2><A ID="SECTION00491000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H2>
+
+<P>
+The suppress command supports either 2 or 4 options, as described in Table <A HREF="#suppression_options"><IMG  ALT="[*]" SRC="crossref.png"></A>. 
+
+<P>
+<BR><P></P>
+<DIV class="CENTER">
+
+<DIV class="CENTER">
+<A ID="3330"></A>
+<TABLE class="PAD  BORDER" style="">
+<CAPTION><STRONG>Table:</STRONG>
+Suppression Options</CAPTION>
+<TR><TH CLASS="LEFT"><SPAN  CLASS="textbf">Option</SPAN></TH>
+<TH CLASS="LEFT"><SPAN  CLASS="textbf">Argument</SPAN></TH>
+<TH CLASS="LEFT"><SPAN  CLASS="textbf">Required?</SPAN></TH>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">gen_id</SPAN></TD>
+<TD CLASS="LEFT"><SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>generator id<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></TD>
+<TD CLASS="LEFT">required</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">sig_id</SPAN></TD>
+<TD CLASS="LEFT"><SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>Snort signature id<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></TD>
+<TD CLASS="LEFT">required</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">track</SPAN></TD>
+<TD CLASS="LEFT"><SPAN  CLASS="texttt">by_src</SPAN> or <SPAN  CLASS="texttt">by_dst</SPAN></TD>
+<TD CLASS="LEFT">optional, requires ip</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">ip</SPAN></TD>
+<TD CLASS="LEFT">ip[/mask]</TD>
+<TD CLASS="LEFT">optional, requires track</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+<PRE>
+suppress gen_id &lt;gen-id&gt;, sig_id &lt;sig-id&gt;, \
+    track &lt;by_src|by_dst&gt;, ip &lt;ip|mask-bits&gt;
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION00492000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">2</SPAN> Examples</A>
+</H2>
+Suppress this event completely:
+<PRE>
+suppress gen_id 1, sig_id 1852:
+</PRE>
+
+<P>
+Suppress this event from this IP:
+<PRE>
+suppress gen_id 1, sig_id 1852, track by_src, ip 10.1.1.54
+</PRE>
+
+<P>
+Suppress this event to this CIDR block:
+<PRE>
+suppress gen_id 1, sig_id 1852, track by_dst, ip 10.1.1.0/24
+</PRE>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="node26.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node24.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html769"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node26.html">3.10 Snort Multi-Event Logging (Event</A>
+<B> Up:</B> <A
+ HREF="node16.html">3. Writing Snort Rules: How</A>
+<B> Previous:</B> <A
+ HREF="node24.html">3.8 Event Thresholding</A>
+ &nbsp; <B>  <A ID="tex2html770"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

@@ -1,0 +1,487 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>3.8 Event Thresholding</TITLE>
+<META NAME="description" CONTENT="3.8 Event Thresholding">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="next" HREF="node25.html">
+<LINK REL="previous" HREF="node23.html">
+<LINK REL="next" HREF="node25.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node25.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node23.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html759"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node25.html">3.9 Event Suppression</A>
+<B> Up:</B> <A
+ HREF="node16.html">3. Writing Snort Rules: How</A>
+<B> Previous:</B> <A
+ HREF="node23.html">3.7 Post-Detection Rule Options</A>
+ &nbsp; <B>  <A ID="tex2html760"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A ID="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A ID="tex2html761"
+  HREF="node24.html#SECTION00481000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">1</SPAN> Standalone Options</A>
+<LI><A ID="tex2html762"
+  HREF="node24.html#SECTION00482000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">2</SPAN> Standalone Format</A>
+<LI><A ID="tex2html763"
+  HREF="node24.html#SECTION00483000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">3</SPAN> Rule Keyword Format</A>
+<LI><A ID="tex2html764"
+  HREF="node24.html#SECTION00484000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">4</SPAN> Rule Keyword Format</A>
+<LI><A ID="tex2html765"
+  HREF="node24.html#SECTION00485000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">5</SPAN> Examples</A>
+<UL>
+<LI><A ID="tex2html766"
+  HREF="node24.html#SECTION00485100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Standalone Thresholds</A>
+<LI><A ID="tex2html767"
+  HREF="node24.html#SECTION00485200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> Rule Thresholds</A>
+<LI><A ID="tex2html768"
+  HREF="node24.html#SECTION00485300000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">3</SPAN> Global Thresholds</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A ID="SECTION00480000000000000000"></A><A ID="Event_Thresholding"></A>
+<BR>
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN> Event Thresholding
+</H1>
+
+<P>
+Event thresholding can be used to reduce the number of logged alerts for noisy
+rules.  This can be tuned to significantly reduce false alarms, and it can also
+be used to write a newer breed of rules. Thresholding commands limit the number
+of times a particular event is logged during a specified time interval. 
+
+<P>
+There are 3 types of thresholding:
+
+<P>
+
+<UL>
+<LI><SPAN  CLASS="texttt">limit</SPAN> 
+
+<P>
+Alerts on the 1st <SPAN  CLASS="textit">m</SPAN> events during the time interval, then ignores events for the
+rest of the time interval.
+
+<P>
+</LI>
+<LI><SPAN  CLASS="texttt">threshold</SPAN> 
+
+<P>
+Alerts every <SPAN  CLASS="textit">m</SPAN> times we see this event during the time interval.
+
+<P>
+</LI>
+<LI><SPAN  CLASS="texttt">both</SPAN> 
+
+<P>
+Alerts once per time interval after seeing <SPAN  CLASS="textit">m</SPAN> occurrences of the event, then
+ignores any additional events during the time interval.
+</LI>
+</UL>
+
+<P>
+Thresholding commands can be included as part of a rule, or you can use
+standalone threshold commands that reference the generator and SID they are
+applied to. There is no functional difference between adding a threshold to a
+rule, or using a separate threshold command applied to the same rule.   There
+is a logical difference.  Some rules may only make sense with a threshold.
+These should incorporate the threshold command into the rule.  For instance, a
+rule for detecting a too many login password attempts may require more than 5
+attempts.  This can be done using the `limit' type of threshold command.  It
+makes sense that the threshold feature is an integral part of this rule.
+
+<P>
+In order for rule thresholds to apply properly, these rules must contain a
+SID.
+
+<P>
+Only one threshold may be applied to any given generator and SID pair.  If more
+than one threshold is applied to a generator and SID pair, Snort will terminate
+with an error while reading the configuration information. 
+
+<P>
+
+<H2><A ID="SECTION00481000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">1</SPAN> Standalone Options</A>
+</H2>
+
+<P>
+This format supports 6 threshold options as described in Table <A HREF="#standalone_options"><IMG  ALT="[*]" SRC="crossref.png"></A>&mdash;all are required.
+
+<P>
+<BR><P></P>
+<DIV class="CENTER">
+
+<DIV class="CENTER">
+<A ID="3326"></A>
+<TABLE class="PAD  BORDER" style="">
+<CAPTION><STRONG>Table:</STRONG>
+Standalone Options</CAPTION>
+<TR><TH CLASS="LEFT"><SPAN  CLASS="textbf">Option</SPAN></TH>
+<TH CLASS="LEFT"><SPAN  CLASS="textbf">Arguments</SPAN></TH>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">gen_id</SPAN></TD>
+<TD CLASS="LEFT"><SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>generator ID<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">sig_id</SPAN></TD>
+<TD CLASS="LEFT"><SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>Snort signature ID<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">type</SPAN></TD>
+<TD CLASS="LEFT"><SPAN  CLASS="texttt">limit</SPAN>, <SPAN  CLASS="texttt">threshold</SPAN>, or <SPAN  CLASS="texttt">both</SPAN></TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">track</SPAN></TD>
+<TD CLASS="LEFT"><SPAN  CLASS="texttt">by_src</SPAN> or <SPAN  CLASS="texttt">by_dst</SPAN></TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">count</SPAN></TD>
+<TD CLASS="LEFT"><SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>number of events<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">seconds</SPAN></TD>
+<TD CLASS="LEFT"><SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>time period over which count is accrued<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+
+<H2><A ID="SECTION00482000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">2</SPAN> Standalone Format</A>
+</H2>
+<PRE>
+threshold gen_id &lt;gen-id&gt;, sig_id &lt;sig-id&gt;, \
+    type &lt;limit|threshold|both&gt;, \
+    track &lt;by_src|by_dst&gt;, count &lt;s&gt;, seconds &lt;m&gt;
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION00483000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">3</SPAN> Rule Keyword Format</A>
+</H2>
+
+<P>
+This format supports 4 threshold options as described in Table <A HREF="#rule_keyword_options"><IMG  ALT="[*]" SRC="crossref.png"></A>&mdash;all are required.
+
+<P>
+<BR><P></P>
+<DIV class="CENTER">
+
+<DIV class="CENTER">
+<A ID="3328"></A>
+<TABLE class="PAD  BORDER" style="">
+<CAPTION><STRONG>Table:</STRONG>
+Rule Keyword Options</CAPTION>
+<TR><TH CLASS="LEFT"><SPAN  CLASS="textbf">Option</SPAN></TH>
+<TH CLASS="LEFT"><SPAN  CLASS="textbf">Arguments</SPAN></TH>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">type</SPAN></TD>
+<TD CLASS="LEFT"><SPAN  CLASS="texttt">limit</SPAN>, <SPAN  CLASS="texttt">threshold</SPAN>, or <SPAN  CLASS="texttt">both</SPAN></TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">track</SPAN></TD>
+<TD CLASS="LEFT"><SPAN  CLASS="texttt">by_src</SPAN> or <SPAN  CLASS="texttt">by_dst</SPAN></TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">count</SPAN></TD>
+<TD CLASS="LEFT"><SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>number of events<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">seconds</SPAN></TD>
+<TD CLASS="LEFT"><SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>time period over which count is accrued<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=323>&nbsp;</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+
+<H2><A ID="SECTION00484000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">4</SPAN> Rule Keyword Format</A>
+</H2>
+<PRE>
+threshold: type &lt;limit|threshold|both&gt;, track &lt;by_src|by_dst&gt;, \
+     count &lt;n&gt;, seconds &lt;m&gt;;
+</PRE>
+
+<P>
+For either standalone or rule format, all tracking is by src or by dst ip,
+ports or anything else are not tracked.
+
+<P>
+Thresholding can also be used globally, this allows you to specify a threshold
+for every rule.  Standard thresholding tests are applied first to an event, if
+they do not block a rule from being logged, and then the global thresholding
+test is applied&mdash;thresholds in a rule will override a global threshold. Global 
+thresholds do not override what's in a signature or a more specific stand-alone 
+threshold.
+
+<P>
+The global threshold options are the same as the standard threshold options
+with the exception of the `<SPAN  CLASS="texttt">sig_id</SPAN>' field.  The <SPAN  CLASS="texttt">sig_id</SPAN> field must be set to 0 to
+indicate that this threshold command applies to all <SPAN  CLASS="texttt">sig_id</SPAN> values with the specified
+<SPAN  CLASS="texttt">gen_id</SPAN>. To apply the same threshold to all <SPAN  CLASS="texttt">gen_id</SPAN>'s at the same time, and with
+just one command specify a value of <SPAN  CLASS="texttt">gen_id=0</SPAN>.
+
+<P>
+The format for global threshold commands is as such:
+
+<P>
+<PRE>
+threshold gen_id &lt;gen-id&gt;, sig_id 0, \
+    type &lt;limit|threshold|both&gt;, \
+    track &lt;by_src|by_dst&gt;, \
+    count &lt;n&gt;, \
+    seconds &lt;m&gt;
+</PRE>
+
+<P>
+This applies a threshold to every event from <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>gen-id<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN>.
+
+<P>
+or 
+
+<P>
+<PRE>
+threshold gen_id 0 , sig_id 0, \
+    type &lt;limit|threshold|both&gt;, \
+    track &lt;by_src|by_dst&gt;, \
+    count &lt;n&gt;, \
+    seconds &lt;m&gt;
+</PRE>
+
+<P>
+This applies a threshold to every event from every gen-id. 
+
+<P>
+
+<H2><A ID="SECTION00485000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">5</SPAN> Examples</A>
+</H2>
+
+<H3><A ID="SECTION00485100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Standalone Thresholds</A>
+</H3>
+
+<P>
+Limit logging to 1 event per 60 seconds:
+<PRE>
+threshold gen_id 1, sig_id 1851, \
+    type limit, track by_src,  \
+    count 1, seconds 60
+</PRE>
+
+<P>
+Limit logging to every 3rd event:
+<PRE>
+threshold gen_id 1, sig_id 1852,  \
+    type threshold, track by_src, \
+    count 3, seconds 60
+</PRE>
+
+<P>
+Limit logging to just 1 event per 60 seconds, but only if we exceed 30 events in 60 seconds:
+<PRE>
+threshold gen_id 1, sig_id 1853, \
+    type both, track by_src, \
+    count 30, seconds 60
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION00485200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> Rule Thresholds</A>
+</H3>
+
+<P>
+This rule logs the first event of this SID every 60 seconds.
+
+<P>
+<PRE>
+alert tcp $external_net any -&gt; $http_servers $http_ports \
+    (msg:"web-misc robots.txt access"; flow:to_server, established; \
+    uricontent:"/robots.txt"; nocase; reference:nessus,10302; \
+    classtype:web-application-activity; threshold: type limit, track \
+    by_src, count 1 , seconds 60 ; sid:1000852; rev:1;)
+</PRE>
+
+<P>
+This rule logs every 10th event on this SID during a 60 second interval. So if
+less than 10 events occur in 60 seconds, nothing gets logged.  Once an event is
+logged, a new time period starts for type=threshold.
+
+<P>
+<PRE>
+alert tcp $external_net any -&gt; $http_servers $http_ports \
+    (msg:"web-misc robots.txt access"; flow:to_server, established; \
+    uricontent:"/robots.txt"; nocase; reference:nessus,10302; \
+    classtype:web-application-activity; threshold: type threshold, \
+    track by_dst, count 10 , seconds 60 ; sid:1000852; rev:1;)
+</PRE>
+
+<P>
+This rule logs at most one event every 60 seconds if at least 10 events on this SID are fired.
+
+<P>
+<PRE>
+alert tcp $external_net any -&gt; $http_servers $http_ports \
+    (msg:"web-misc robots.txt access"; flow:to_server, established; \
+    uricontent:"/robots.txt"; nocase; reference:nessus,10302; \
+    classtype:web-application-activity; threshold: type both , track \
+    by_dst, count 10 , seconds 60 ; sid:1000852; rev:1;)
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION00485300000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">3</SPAN> Global Thresholds</A>
+</H3>
+
+<P>
+Limit to logging 1 event per 60 seconds per IP triggering each rule (rule gen_id is 1):
+<PRE>
+threshold gen_id 1, sig_id 0, type limit, track by_src, count 1, seconds 60
+</PRE>
+
+<P>
+Limit to logging 1 event per 60 seconds per IP, triggering each rule for each event generator:
+<PRE>
+threshold gen_id 0, sig_id 0, type limit, track by_src, count 1, seconds 60
+</PRE>
+
+<P>
+Events in Snort are generated in the usual way, thresholding is handled as part
+of the output system. Read gen-msg.map for details on gen ids.
+
+<P>
+Users can also configure a memcap for threshold with a &ldquo;config:&rdquo; option:
+
+<P>
+<PRE>
+config threshold: memcap &lt;bytes&gt;
+</PRE>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="node25.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node23.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html759"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node25.html">3.9 Event Suppression</A>
+<B> Up:</B> <A
+ HREF="node16.html">3. Writing Snort Rules: How</A>
+<B> Previous:</B> <A
+ HREF="node23.html">3.7 Post-Detection Rule Options</A>
+ &nbsp; <B>  <A ID="tex2html760"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

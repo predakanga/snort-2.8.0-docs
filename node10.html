@@ -1,0 +1,1138 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>2. Configuring Snort </TITLE>
+<META NAME="description" CONTENT="2. Configuring Snort ">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="next" HREF="node16.html">
+<LINK REL="previous" HREF="node2.html">
+<LINK REL="next" HREF="node11.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node11.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="snort_manual.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node9.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html338"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node11.html">2.1 Preprocessors</A>
+<B> Up:</B> <A
+ HREF="snort_manual.html">Snort<SUP>TM</SUP>Users Manual 2.8.0</A>
+<B> Previous:</B> <A
+ HREF="node9.html">1.7 More Information</A>
+ &nbsp; <B>  <A ID="tex2html339"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A ID="SECTION00300000000000000000"></A><A ID="Configuring_Snort"></A>
+<BR>
+<SPAN CLASS="arabic">2</SPAN>. Configuring Snort 
+</H1>
+
+<P>
+
+<H2><A ID="SECTION00301000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">1</SPAN> Includes</A>
+</H2>
+
+<P>
+The <SPAN style="font-family:monospace">include</SPAN> keyword allows other rules files to be included within the rules
+file indicated on the Snort command line. It works much like an #include from
+the C programming language, reading the contents of the named file and adding the contents
+in the place where the include statement appears in the file.
+
+<P>
+
+<H3><A ID="SECTION00301100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+<PRE>
+include &lt;include file path/name&gt;
+</PRE>
+
+<P>
+
+        
+        <p><table border="1"><tr><td><b>
+        Note:&nbsp;&nbsp;</b>
+Note that there is no semicolon at the end of this line. 
+        
+        </b></td></tr></table></p>
+
+<P>
+Included files will
+substitute any predefined variable values into their own variable references.
+See Section <A HREF="#variables"><IMG  ALT="[*]" SRC="crossref.png"></A> for more information on defining and
+using variables in Snort rules files.
+
+<P>
+
+<H2><A ID="SECTION00302000000000000000"></A><A ID="variables"></A>
+<BR>
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">2</SPAN> Variables 
+</H2>
+
+<P>
+Three types of variables may be defined in Snort:
+
+<P>
+
+<UL>
+<LI>var
+</LI>
+<LI>portvar
+</LI>
+<LI>ipvar
+</LI>
+</UL>
+
+<P>
+
+        
+        <p><table border="1"><tr><td><b>
+        Note:&nbsp;&nbsp;</b>
+Note: 'ipvar's are only enabled with IPv6 support. Without IPv6 support, use a
+regular 'var'.
+        
+        </b></td></tr></table></p>
+
+<P>
+These are simple substitution variables set with the <SPAN style="font-family:monospace">var</SPAN>, <SPAN style="font-family:monospace">ipvar</SPAN>, 
+or <SPAN style="font-family:monospace">portvar</SPAN> keywords as shown in Figure <A HREF="#variable_definition"><IMG  ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+
+<DIV class="CENTER"><A ID="variable_definition"></A><A ID="3185"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Example of Variable Definition and Usage</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 17.41ex; " SRC="img3.svg"
+ ALT="\begin{figure}\begin{verbatim}var RULES_PATH rules/
+portvar MY_PORTS [22,80,10...
+... msg:''SYN packet'';)
+include $RULE_PATH/example.rule\end{verbatim}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H3><A ID="SECTION00302100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN> IP Variables and IP Lists</A>
+</H3>
+IPs may be specified individually, in a list, as a CIDR block, or any
+combination of the three.  If IPv6 support is enabled, IP variables 
+should be specified using 'ipvar' instead of 'var'.  Using 'var' for 
+an IP variable is still allowed for backward compatibility, but it will 
+be deprecated in a future release.
+
+<P>
+IPs, IP lists, and CIDR blocks may be negated with '!'.  Negation is handled
+differently compared with Snort versions 2.7.x and earlier.  Previously, each
+element in a list was logically OR'ed together.  IP lists now OR non-negated
+elements and AND the result with the OR'ed negated elements.  
+
+<P>
+The following example list will match the IP 1.1.1.1 and IP from 2.2.2.0 to 
+2.2.2.255, with the exception of IPs 2.2.2.2 and 2.2.2.3.
+
+<P>
+<PRE>
+    [1.1.1.1,2.2.2.0/24,![2.2.2.2,2.2.2.3]]
+</PRE>
+
+<P>
+The order of the elements in the list does not matter.  The element 'any' can be 
+used to match all IPs, although '!any' is not allowed.  Also, negated IP ranges
+that are more general than non-negated IP ranges are not allowed.  
+
+<P>
+See below for some valid examples if IP variables and IP lists.
+
+<P>
+<PRE>
+    ipvar EXAMPLE [1.1.1.1,2.2.2.0/24,![2.2.2.2,2.2.2.3]] 
+    
+    alert tcp $EXAMPLE any -&gt; any any (msg:"Example"; sid:1;)
+
+    alert tcp [1.0.0.0/8,!1.1.1.0/24] any -&gt; any any (msg:"Example";sid:2;)
+</PRE>
+
+<P>
+The following examples demonstrate some invalid uses of IP variables and IP lists.
+
+<P>
+Use of !any:
+<PRE>
+    ipvar EXAMPLE any
+    alert tcp !$EXAMPLE any -&gt; any any (msg:"Example";sid:3;)
+</PRE>
+
+<P>
+Different use of !any:
+
+<P>
+<PRE>
+    ipvar EXAMPLE !any
+    alert tcp $EXAMPLE any -&gt; any any (msg:"Example";sid:3;)
+</PRE>
+
+<P>
+Logical contradictions:
+
+<P>
+<PRE>
+    ipvar EXAMPLE [1.1.1.1,!1.1.1.1]
+</PRE>
+
+<P>
+Nonsensical negations:
+
+<P>
+<PRE>
+    ipvar EXAMPLE [1.1.1.0/24,!1.1.0.0/16]
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION00302200000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">2</SPAN> Port Variables and Port Lists</A>
+</H3>
+
+<P>
+Portlists supports the declaration and lookup of ports and the representation
+of lists and ranges of ports.  Variables, ranges, or lists may all be negated
+with '!'.  Also, 'any' will specify any ports, but '!any' is not allowed.  
+Valid port ranges are from 0 to 65535.
+
+<P>
+Lists of ports must be enclosed in brackets and port ranges may be specified 
+with a ':', such as in:
+
+<P>
+<PRE>     
+    [10:50,888:900]
+</PRE>
+
+<P>
+Port variables should be specified using 'portvar'.  The use of 'var' to 
+declare a port variable will be deprecated in a future release.  For 
+backwards compatibility, a 'var' can still be used to declare a port variable,
+provided the variable name either ends with '_PORT' or begins with 'PORT_'. 
+
+<P>
+The following examples demonstrate several valid usages of both port variables
+and port lists.
+
+<P>
+<PRE>     
+    portvar EXAMPLE1 80
+
+    var EXAMPLE2_PORT [80:90]
+
+    var PORT_EXAMPLE2 [1]
+
+    portvar EXAMPLE3 any
+
+    portvar EXAMPLE4 [!70:90]
+
+    portvar EXAMPLE5 [80,91:95,100:200]
+
+    alert tcp any $EXAMPLE1 -&gt; any $EXAMPLE2_PORT (msg:"Example"; sid:1;)
+
+    alert tcp any $PORT_EXAMPLE2 -&gt; any any (msg:"Example"; sid:2;)
+
+    alert tcp any 90 -&gt; any [100:1000,9999:20000] (msg:"Example"; sid:3;)
+</PRE>
+
+<P>
+Several invalid examples of port variables and port lists are demonstrated below:
+
+<P>
+Use of !any:
+<PRE>     
+    portvar EXAMPLE5 !any
+    var EXAMPLE5 !any
+</PRE>
+Logical contradictions:
+<PRE>     
+    portvar EXAMPLE6 [80,!80]
+</PRE>
+Ports out of range:
+<PRE>     
+    portvar EXAMPLE7 [65536]
+</PRE>
+Incorrect declaration and use of a port variable:
+<PRE>     
+    var EXAMPLE8 80 
+    alert tcp any $EXAMPLE8 -&gt; any any (msg:"Example"; sid:4;)
+</PRE>
+Port variable used as an IP:
+<PRE>     
+    alert tcp $EXAMPLE1 any -&gt; any any (msg:"Example"; sid:5;)
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION00302300000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">3</SPAN> Variable Modifiers</A>
+</H3>
+
+<P>
+Rule variable names can be modified in several ways. You can define
+meta-variables using the $ operator. These can be used with the variable
+modifier operators <SPAN style="font-family:monospace">?</SPAN>  and <SPAN style="font-family:monospace">-</SPAN>, as described in the following table: 
+
+<P>
+<TABLE class="PAD  BORDER" style="">
+<TR><TH CLASS="LEFT"><SPAN  CLASS="textbf">Variable Syntax</SPAN></TH>
+<TH CLASS="LEFT"><SPAN  CLASS="textbf">Description</SPAN></TH>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">var</SPAN></TD>
+<TD CLASS="LEFT">Defines a meta-variable.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">$(var) or $var</SPAN></TD>
+<TD CLASS="LEFT">Replaces with the contents of variable <SPAN  CLASS="texttt">var</SPAN>.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">$(var:-default)</SPAN></TD>
+<TD CLASS="LEFT">Replaces the contents of the variable <SPAN  CLASS="texttt">var</SPAN> with &ldquo;default&rdquo; if 
+   <SPAN  CLASS="texttt">var</SPAN> is undefined.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">$(var:?message)</SPAN></TD>
+<TD CLASS="LEFT">Replaces with the contents of variable <SPAN  CLASS="texttt">var</SPAN> or prints out the
+error message and exits.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+See Figure <A HREF="#advanced_variable_usage"><IMG  ALT="[*]" SRC="crossref.png"></A> for an example of advanced variable usage in action.
+
+<P>
+
+<DIV class="CENTER"><A ID="advanced_variable_usage"></A><A ID="3187"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Figure Advanced Variable Usage Example</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 9.08ex; " SRC="img4.svg"
+ ALT="\begin{figure}\begin{verbatim}ipvar MY_NET 192.168.1.0/24
+log tcp any any -&gt; $(MY_NET:?MY_NET is undefined!) 23\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00303000000000000000"></A><A ID="Config"></A>
+<BR>
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">3</SPAN> Config
+</H2>
+
+<P>
+Many configuration and command line options of Snort can be specified
+in the configuration file. 
+
+<P>
+
+<H3><A ID="SECTION00303100000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<DIV class="CENTER">
+</DIV><PRE>
+config &lt;directive&gt; [: &lt;value&gt;]
+</PRE>
+<DIV class="CENTER">
+</DIV>
+
+<P>
+
+<H3><A ID="SECTION00303200000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN> Directives</A>
+</H3>
+<DIV class="CENTER">
+<A ID="347"></A>
+<TABLE class="PAD  BORDER" style="">
+<CAPTION><STRONG>Table:</STRONG>
+Config Directives</CAPTION>
+<TR><TD CLASS="LEFT"><B>Command</B></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><B>Example</B></TD>
+<TD CLASS="LEFT"><B>Description</B></TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">alert_with_interface_name</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config alert_with_interface_name</SPAN></TD>
+<TD CLASS="LEFT">Appends interface name to alert (<SPAN  CLASS="texttt">snort -I</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">alertfile</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config alertfile: alerts</SPAN></TD>
+<TD CLASS="LEFT">Sets the alerts output file.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">asn1</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config asn1:256</SPAN></TD>
+<TD CLASS="LEFT">Specifies the maximum number of nodes to 
+track when doing ASN1 decoding. See Section <A HREF="node21.html#asn1"><IMG  ALT="[*]" SRC="crossref.png"></A> for more information and examples.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">bpf_file</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config bpf_file: filters.bpf</SPAN></TD>
+<TD CLASS="LEFT">Specifies BPF filters (<SPAN  CLASS="texttt">snort -F</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">checksum_drop</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config checksum_drop : all</SPAN></TD>
+<TD CLASS="LEFT">Types of packets 
+to drop if invalid checksums. Values: <SPAN  CLASS="texttt">none</SPAN>, <SPAN  CLASS="texttt">noip</SPAN>, <SPAN  CLASS="texttt">notcp</SPAN>, 
+<SPAN  CLASS="texttt">noicmp</SPAN>, <SPAN  CLASS="texttt">noudp</SPAN>, <SPAN  CLASS="texttt">ip</SPAN>, <SPAN  CLASS="texttt">tcp</SPAN>, <SPAN  CLASS="texttt">udp</SPAN>, <SPAN  CLASS="texttt">icmp</SPAN> or <SPAN  CLASS="texttt">all</SPAN> (only applicable in inline mode and for packets checked per <SPAN  CLASS="texttt">checksum_mode</SPAN> config option).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">checksum_mode</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config checksum_mode : all</SPAN></TD>
+<TD CLASS="LEFT">Types of packets 
+to calculate checksums. Values: <SPAN  CLASS="texttt">none</SPAN>, <SPAN  CLASS="texttt">noip</SPAN>, <SPAN  CLASS="texttt">notcp</SPAN>, 
+<SPAN  CLASS="texttt">noicmp</SPAN>, <SPAN  CLASS="texttt">noudp</SPAN>, <SPAN  CLASS="texttt">ip</SPAN>, <SPAN  CLASS="texttt">tcp</SPAN>, <SPAN  CLASS="texttt">udp</SPAN>, <SPAN  CLASS="texttt">icmp</SPAN> or <SPAN  CLASS="texttt">all</SPAN>.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">chroot</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config chroot: /home/snort</SPAN></TD>
+<TD CLASS="LEFT">Chroots to specified dir (<SPAN  CLASS="texttt">snort -t</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">classification</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config classification: misc-activity,Misc activity,3</SPAN></TD>
+<TD CLASS="LEFT">See Table <A HREF="#Snort_Default_Classifications"><IMG  ALT="[*]" SRC="crossref.png"></A> for a list of
+  classifications.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">daemon</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config daemon</SPAN></TD>
+<TD CLASS="LEFT">Forks as a daemon (<SPAN  CLASS="texttt">snort -D</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">decode_data_link</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config decode_data_link</SPAN></TD>
+<TD CLASS="LEFT">Decodes Layer2 headers (<SPAN  CLASS="texttt">snort -e</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">default_rule_state</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config default_rule_state: disabled</SPAN></TD>
+<TD CLASS="LEFT">Global configuration directive to enable or disable the loading of rules into the detection engine.  Default (with or without directive) is enabled.  Specify <SPAN  CLASS="texttt">disabled</SPAN> to disable loading rules.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">detection</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config detection: search-method ac no_stream_inserts max_queue_events 128</SPAN></TD>
+<TD CLASS="LEFT">Makes changes to the detection engine. 
+The following options can be used:
+<UL>
+<LI><SPAN  CLASS="texttt">search-method <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>ac <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img5.svg"
+ ALT="$\vert$"></SPAN> ac-std <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img5.svg"
+ ALT="$\vert$"></SPAN> ac-bnfa <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img5.svg"
+ ALT="$\vert$"></SPAN> acs <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img5.svg"
+ ALT="$\vert$"></SPAN> ac-banded <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img5.svg"
+ ALT="$\vert$"></SPAN> ac-sparsebands <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img5.svg"
+ ALT="$\vert$"></SPAN> lowmem <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></SPAN>
+
+<UL>
+<LI><SPAN  CLASS="texttt">ac</SPAN> Aho-Corasick Full (high memory, best performance)
+</LI>
+<LI><SPAN  CLASS="texttt">ac-std</SPAN> Aho-Corasick Standard (moderate memory, high performance)
+</LI>
+<LI><SPAN  CLASS="texttt">ac-bnfa</SPAN> Aho-Corasick NFA (low memory, high performance)
+</LI>
+<LI><SPAN  CLASS="texttt">acs</SPAN> Aho-Corasick Sparse (small memory, moderate performance)
+</LI>
+<LI><SPAN  CLASS="texttt">ac-banded</SPAN> Aho-Corasick Banded (small memory, moderate performance)
+</LI>
+<LI><SPAN  CLASS="texttt">ac-sparsebands</SPAN> Aho-Corasick Sparse-Banded (small memory, high performance)
+</LI>
+<LI><SPAN  CLASS="texttt">lowmem</SPAN> Low Memory Keyword Trie (small memory, low performance)
+</LI>
+</UL>
+</LI>
+<LI><SPAN  CLASS="texttt">no_stream_inserts</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">max_queue_events<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>integer<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></SPAN>
+</LI>
+</UL></TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">disable_decode_alerts</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config disable_decode_alerts</SPAN></TD>
+<TD CLASS="LEFT">Turns off the alerts generated by the decode phase of Snort.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">disable_inline_init_failopen</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config disable_inline_init_
+<BR>
+failopen</SPAN></TD>
+<TD CLASS="LEFT">Disables failopen thread that allows inline traffic to pass while Snort is starting up.  Only useful if Snort was configured with &ndash;enable-inline-init-failopen. (<SPAN  CLASS="texttt">snort &ndash;disable-inline-init-failopen</SPAN>)</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">disable_ipopt_alerts</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config disable_ipopt_alerts</SPAN></TD>
+<TD CLASS="LEFT">Disables IP option length validation alerts.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">disable_tcpopt_alerts</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config disable_tcpopt_alerts</SPAN></TD>
+<TD CLASS="LEFT">Disables option length validation alerts.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">disable_tcpopt_experimental_
+<BR>
+alerts</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config disable_tcpopt_experiment
+<BR>
+al_alerts</SPAN></TD>
+<TD CLASS="LEFT">Turns off alerts generated by experimental TCP options.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">disable_tcpopt_obsolete_
+<BR>
+alerts</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config disable_tcpopt_obsole
+<BR>
+te_alerts</SPAN></TD>
+<TD CLASS="LEFT">Turns off alerts generated by obsolete TCP options.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">disable_tcpopt_ttcp_alerts</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config disable_tcpopt_ttcp_alerts</SPAN></TD>
+<TD CLASS="LEFT">Turns off alerts generated by T/TCP options.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">disable_ttcp_alerts</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config disable_ttcp_alerts</SPAN></TD>
+<TD CLASS="LEFT">Turns off alerts generated by T/TCP options.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">dump_chars_only</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config dump_chars_only</SPAN></TD>
+<TD CLASS="LEFT">Turns on character dumps (<SPAN  CLASS="texttt">snort -C</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">dump_payload</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config dump_payload</SPAN></TD>
+<TD CLASS="LEFT">Dumps application layer (<SPAN  CLASS="texttt">snort -d</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">dump_payload_verbose</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config dump_payload_verbose</SPAN></TD>
+<TD CLASS="LEFT">Dumps raw packet starting at link layer (<SPAN  CLASS="texttt">snort -X</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">enable_decode_drops</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config enable_decode_drops</SPAN></TD>
+<TD CLASS="LEFT">Enables the dropping of
+bad packets identified by decoder (only applicable in inline mode).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">enable_decode_oversized_
+<BR>
+alerts</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config enable_decode_oversized_
+<BR>
+alerts</SPAN></TD>
+<TD CLASS="LEFT">Enable alerting on packets that have headers containing length fields for which the value is greater than the length of the packet.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">enable_decode_oversized_drops</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config enable_decode_oversized_
+<BR>
+drops</SPAN></TD>
+<TD CLASS="LEFT">Enable dropping packets that have headers containing length fields for which the value is greater than the length of the packet.  <SPAN  CLASS="texttt">enable_decode_oversized_alerts</SPAN> must also be enabled for this to be effective (only applicable in inline mode).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">enable_ipopt_drops</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config enable_ipopt_drops</SPAN></TD>
+<TD CLASS="LEFT">Enables the dropping of bad packets with bad/truncated IP options (only applicable in inline mode).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">enable_tcpopt_drops</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config enable_tcpopt_drops</SPAN></TD>
+<TD CLASS="LEFT">Enables the dropping of bad packets with bad/truncated TCP option (only applicable in inline mode).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">enable_tcpopt_experimental_
+<BR>
+drops</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config enable_tcpopt_experi
+<BR>
+mental_drops</SPAN></TD>
+<TD CLASS="LEFT">Enables the dropping of bad packets with experimental TCP option.  (only applicable in inline mode).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">enable_tcpopt_obsolete_
+<BR>
+drops</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config enable_tcpopt_obsole
+<BR>
+te_drops</SPAN></TD>
+<TD CLASS="LEFT">Enables the dropping of bad packets with obsolete TCP option.  (only applicable in inline mode).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">enable_tcpopt_ttcp_drops</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">enable_tcpopt_ttcp_drops</SPAN></TD>
+<TD CLASS="LEFT">Enables the dropping of bad packets with T/TCP option. (only applicable in inline mode).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">enable_ttcp_drops</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">enable_ttcp_drops</SPAN></TD>
+<TD CLASS="LEFT">Enables the dropping of bad packets with T/TCP option. (only applicable in inline mode).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">event_queue</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config event_queue: max_queue 512 log 100 order_events priority</SPAN></TD>
+<TD CLASS="LEFT">Specifies conditions about Snort's event queue. You can use the following options:
+
+<UL>
+<LI><SPAN  CLASS="texttt">max_queue <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>integer<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></SPAN> (max events supported)
+</LI>
+<LI><SPAN  CLASS="texttt">log <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>integer<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></SPAN> (number of events to log) 
+</LI>
+<LI><SPAN  CLASS="texttt">order_events [priority<SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img5.svg"
+ ALT="$\vert$"></SPAN>content_length]</SPAN> (how to order events within the queue)
+</LI>
+</UL>
+See Section <A HREF="node26.html#eventqueue"><IMG  ALT="[*]" SRC="crossref.png"></A> for more information and examples.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">flexresp2_attempts</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config flexresp2_attempts: 15</SPAN></TD>
+<TD CLASS="LEFT">Specify the number of TCP reset packets to send to the source of the attack.  Valid values are 0 to 20, however values less than 4 will default to 4.  The default value without this option is 4.  (Snort must be compiled with &ndash;enable-flexresp2)</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">flexresp2_interface</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config flexresp2_interface: eth0</SPAN></TD>
+<TD CLASS="LEFT">Specify the response interface to use.  In Windows this can also be the interface number.  (Snort must be compiled with &ndash;enable-flexresp2)</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">flexresp2_memcap</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config flexresp2_memcap: 100000</SPAN></TD>
+<TD CLASS="LEFT">Specify the memcap for the hash table used to track the time of responses.  The times (hashed on a socket pair plus protocol) are used to limit sending a response to the same half of a socket pair every couple of seconds.  Default is 1048576 bytes.  (Snort must be compiled with &ndash;enable-flexresp2)</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">flexresp2_rows</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config flexresp2_rows: 2048</SPAN></TD>
+<TD CLASS="LEFT">Specify the number of rows for the hash table used to track the time of responses.  Default is 1024 rows.  (Snort must be compiled with &ndash;enable-flexresp2)</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">flowbits_size</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config flowbits_size: 128</SPAN></TD>
+<TD CLASS="LEFT">Specifies the maximum number of flowbit tags that can be used within a rule set.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">ignore_ports</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config ignore_ports: udp 1:17 53</SPAN></TD>
+<TD CLASS="LEFT">Specifies ports to ignore (useful for ignoring noisy NFS traffic). Specify the protocol (TCP, UDP, IP, or ICMP), followed by a list of ports. Port ranges are supported.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">interface</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config interface: xl0</SPAN></TD>
+<TD CLASS="LEFT">Sets the network interface (<SPAN  CLASS="texttt">snort -i</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">ipv6_frag</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config ipv6_frag: bsd_icmp_frag_alert off, bad_ipv6_frag_alert off, frag_timeout 120, max_frag_sessions 100000</SPAN></TD>
+<TD CLASS="LEFT">The following options can be used:
+
+<UL>
+<LI><SPAN  CLASS="texttt">bsd_icmp_frag_alert on|off</SPAN> (Specify whether or not to alert. Default is on)
+</LI>
+<LI><SPAN  CLASS="texttt">bad_ipv6_frag_alert on|off</SPAN> (Specify whether or not to alert. Default is on)
+</LI>
+<LI><SPAN  CLASS="texttt">frag_timeout <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>integer<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></SPAN> (Specify amount of time in seconds to timeout first frag in hash table)
+</LI>
+<LI><SPAN  CLASS="texttt">max_frag_sessions <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>integer<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></SPAN> (Specify the number of fragments to track in the hash table)
+</LI>
+</UL></TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">layer2resets</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config layer2resets: 00:06:76:DD:5F:E3</SPAN></TD>
+<TD CLASS="LEFT">This option is only available when running in inline mode. See Section <A HREF="node7.html#Snort_Inline"><IMG  ALT="[*]" SRC="crossref.png"></A>.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">logdir</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config logdir: /var/log/snort</SPAN></TD>
+<TD CLASS="LEFT">Sets the logdir (<SPAN  CLASS="texttt">snort -l</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">min_ttl</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config min_ttl:30</SPAN></TD>
+<TD CLASS="LEFT">Sets a Snort-wide minimum ttl to ignore all traffic.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">no_promisc</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config no_promisc</SPAN></TD>
+<TD CLASS="LEFT">Disables promiscuous mode (<SPAN  CLASS="texttt">snort -p</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">nolog</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config nolog</SPAN></TD>
+<TD CLASS="LEFT">Disables logging. Note: Alerts will still occur. (<SPAN  CLASS="texttt">snort -N</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">nopcre</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config nopcre</SPAN></TD>
+<TD CLASS="LEFT">Disables pcre pattern matching.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">obfuscate</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config obfuscate</SPAN></TD>
+<TD CLASS="LEFT">Obfuscates IP Addresses (<SPAN  CLASS="texttt">snort -O</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">order</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config order: pass alert log activation</SPAN></TD>
+<TD CLASS="LEFT">Changes the order that rules are evaluated.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">pidpath</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config pidpath: /var/snort</SPAN></TD>
+<TD CLASS="LEFT">Set path to directory to store snort pid file.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">pkt_count</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config pkt_count: 13</SPAN></TD>
+<TD CLASS="LEFT">Exits after N packets (<SPAN  CLASS="texttt">snort -n</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">profile_preprocs</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config profile_preprocs</SPAN></TD>
+<TD CLASS="LEFT">Print statistics on preprocessor performance.
+See Section <A HREF="node13.html#preproc_profiling"><IMG  ALT="[*]" SRC="crossref.png"></A> for more details.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">profile_rules</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config profile_rules</SPAN></TD>
+<TD CLASS="LEFT">Print statistics on rule performance.
+See Section <A HREF="node13.html#rule_profiling"><IMG  ALT="[*]" SRC="crossref.png"></A> for more details.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">quiet</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config quiet</SPAN></TD>
+<TD CLASS="LEFT">Disables banner and status reports (<SPAN  CLASS="texttt">snort -q</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">read_bin_file</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config read_bin_file: test_alert.pcap</SPAN></TD>
+<TD CLASS="LEFT">Specifies a pcap file to use 
+(instead of reading from network),
+        same effect as -r <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>tf<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN> option.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">reference</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config reference: myref http://myurl.com/?id=</SPAN></TD>
+<TD CLASS="LEFT">Adds a new reference system to Snort.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">reference_net</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config reference_net 192.168.0.0/24</SPAN></TD>
+<TD CLASS="LEFT">For IP obfuscation, the obfuscated net will be used if the packet contains an IP address in the reference net.  Also used to determine how to set up the logging directory structure for the <SPAN  CLASS="texttt">session</SPAN> post detection rule option and ascii output plugin - an attempt is made to name the log directories after the IP address that is not in the reference net.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">set_gid</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config set_gid: 30</SPAN></TD>
+<TD CLASS="LEFT">Changes GID to specified GID (<SPAN  CLASS="texttt">snort -g</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">set_uid</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">set_uid: snort_user</SPAN></TD>
+<TD CLASS="LEFT">Sets UID to <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>id<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN> (<SPAN  CLASS="texttt">snort -u</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">show_year</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config show_year</SPAN></TD>
+<TD CLASS="LEFT">Shows year in timestamps (<SPAN  CLASS="texttt">snort -y</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">snaplen</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config snaplen: 2048</SPAN></TD>
+<TD CLASS="LEFT">Set the snaplength of packet, same effect as 
+<SPAN  CLASS="texttt">-P <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>snaplen<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></SPAN> or <SPAN  CLASS="texttt">&ndash;snaplen <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>snaplen<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN></SPAN> options.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">stateful</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config stateful</SPAN></TD>
+<TD CLASS="LEFT">Sets assurance mode for stream4 (est). See the stream4_reassemble configuration in table <A HREF="#stream4_reassemble_defaults"><IMG  ALT="[*]" SRC="crossref.png"></A>.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">tagged_packet_limit</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config tagged_packet_limit: 512</SPAN></TD>
+<TD CLASS="LEFT">When a metric other than <SPAN  CLASS="texttt">packets</SPAN> is used in a tag option in a rule, this option sets the maximum number of packets to be tagged regardless of the amount defined by the other metric.  See Section <A HREF="node23.html#tag_section"><IMG  ALT="[*]" SRC="crossref.png"></A> on using the tag option when writing rules for more details.  The default value when this option is not configured is 256 packets.  Setting this option to a value of 0 will disable the packet limit.</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">threshold</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config threshold: memcap 100000</SPAN></TD>
+<TD CLASS="LEFT">Set global memcap in bytes for thresholding. Default is 1048576 bytes (1 megabyte).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">umask</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config umask: 022</SPAN></TD>
+<TD CLASS="LEFT">Sets umask when running (<SPAN  CLASS="texttt">snort -m</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">utc</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config utc</SPAN></TD>
+<TD CLASS="LEFT">Uses UTC instead of local time for timestamps (<SPAN  CLASS="texttt">snort -U</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">verbose</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=184><SPAN  CLASS="texttt">config verbose</SPAN></TD>
+<TD CLASS="LEFT">Uses verbose logging to STDOUT (<SPAN  CLASS="texttt">snort -v</SPAN>).</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<BR><HR>
+<!--Table of Child-Links-->
+<A ID="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><UL>
+<LI><A ID="tex2html340"
+  HREF="node10.html#SECTION00301000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">1</SPAN> Includes</A>
+<LI><A ID="tex2html341"
+  HREF="node10.html#SECTION00302000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">2</SPAN> Variables </A>
+<LI><A ID="tex2html342"
+  HREF="node10.html#SECTION00303000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">3</SPAN> Config</A>
+</UL>
+<BR>
+<LI><A ID="tex2html343"
+  HREF="node11.html"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN> Preprocessors</A>
+<UL>
+<LI><A ID="tex2html344"
+  HREF="node11.html#SECTION00311000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> Frag3 </A>
+<LI><A ID="tex2html345"
+  HREF="node11.html#SECTION00312000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">2</SPAN> Stream4</A>
+<LI><A ID="tex2html346"
+  HREF="node11.html#SECTION00313000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">3</SPAN> Flow</A>
+<LI><A ID="tex2html347"
+  HREF="node11.html#SECTION00314000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">4</SPAN> Stream5</A>
+<LI><A ID="tex2html348"
+  HREF="node11.html#SECTION00315000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN> sfPortscan</A>
+<LI><A ID="tex2html349"
+  HREF="node11.html#SECTION00316000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">6</SPAN> RPC Decode</A>
+<LI><A ID="tex2html350"
+  HREF="node11.html#SECTION00317000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">7</SPAN> Performance Monitor</A>
+<LI><A ID="tex2html351"
+  HREF="node11.html#SECTION00318000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">8</SPAN> HTTP Inspect </A>
+<LI><A ID="tex2html352"
+  HREF="node11.html#SECTION00319000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">9</SPAN> SMTP Preprocessor</A>
+<LI><A ID="tex2html353"
+  HREF="node11.html#SECTION003110000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">10</SPAN> FTP/Telnet Preprocessor</A>
+<LI><A ID="tex2html354"
+  HREF="node11.html#SECTION003111000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">11</SPAN> SSH</A>
+<LI><A ID="tex2html355"
+  HREF="node11.html#SECTION003112000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">12</SPAN> DCE/RPC</A>
+<LI><A ID="tex2html356"
+  HREF="node11.html#SECTION003113000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">13</SPAN> DNS</A>
+</UL>
+<BR>
+<LI><A ID="tex2html357"
+  HREF="node12.html"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">2</SPAN> Event Thresholding</A>
+<LI><A ID="tex2html358"
+  HREF="node13.html"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">3</SPAN> Performance Profiling</A>
+<UL>
+<LI><A ID="tex2html359"
+  HREF="node13.html#SECTION00331000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN> Rule Profiling</A>
+<LI><A ID="tex2html360"
+  HREF="node13.html#SECTION00332000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN> Preprocessor Profiling</A>
+</UL>
+<BR>
+<LI><A ID="tex2html361"
+  HREF="node14.html"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN> Output Modules </A>
+<UL>
+<LI><A ID="tex2html362"
+  HREF="node14.html#SECTION00341000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> alert_syslog </A>
+<LI><A ID="tex2html363"
+  HREF="node14.html#SECTION00342000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN> alert_fast</A>
+<LI><A ID="tex2html364"
+  HREF="node14.html#SECTION00343000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">3</SPAN> alert_full</A>
+<LI><A ID="tex2html365"
+  HREF="node14.html#SECTION00344000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN> alert_unixsock</A>
+<LI><A ID="tex2html366"
+  HREF="node14.html#SECTION00345000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN> log_tcpdump</A>
+<LI><A ID="tex2html367"
+  HREF="node14.html#SECTION00346000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN> database </A>
+<LI><A ID="tex2html368"
+  HREF="node14.html#SECTION00347000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">7</SPAN> csv</A>
+<LI><A ID="tex2html369"
+  HREF="node14.html#SECTION00348000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">8</SPAN> unified</A>
+<LI><A ID="tex2html370"
+  HREF="node14.html#SECTION00349000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">9</SPAN> unified 2</A>
+<LI><A ID="tex2html371"
+  HREF="node14.html#SECTION003410000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">10</SPAN> alert_prelude</A>
+<LI><A ID="tex2html372"
+  HREF="node14.html#SECTION003411000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">11</SPAN> log null</A>
+<LI><A ID="tex2html373"
+  HREF="node14.html#SECTION003412000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">12</SPAN> alert_aruba_action</A>
+</UL>
+<BR>
+<LI><A ID="tex2html374"
+  HREF="node15.html"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">5</SPAN> Dynamic Modules</A>
+<UL>
+<LI><A ID="tex2html375"
+  HREF="node15.html#SECTION00351000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html376"
+  HREF="node15.html#SECTION00352000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> Directives</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="node11.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="snort_manual.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node9.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html338"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node11.html">2.1 Preprocessors</A>
+<B> Up:</B> <A
+ HREF="snort_manual.html">Snort<SUP>TM</SUP>Users Manual 2.8.0</A>
+<B> Previous:</B> <A
+ HREF="node9.html">1.7 More Information</A>
+ &nbsp; <B>  <A ID="tex2html339"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

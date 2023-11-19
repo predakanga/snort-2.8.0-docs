@@ -1,0 +1,1348 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>3.6 Non-Payload Detection Rule Options</TITLE>
+<META NAME="description" CONTENT="3.6 Non-Payload Detection Rule Options">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="next" HREF="node23.html">
+<LINK REL="previous" HREF="node21.html">
+<LINK REL="next" HREF="node23.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node23.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node21.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html670"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node23.html">3.7 Post-Detection Rule Options</A>
+<B> Up:</B> <A
+ HREF="node16.html">3. Writing Snort Rules: How</A>
+<B> Previous:</B> <A
+ HREF="node21.html">3.5 Payload Detection Rule Options</A>
+ &nbsp; <B>  <A ID="tex2html671"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A ID="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A ID="tex2html672"
+  HREF="node22.html#SECTION00461000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> fragoffset </A>
+<UL>
+<LI><A ID="tex2html673"
+  HREF="node22.html#SECTION00461100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html674"
+  HREF="node22.html#SECTION00462000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> ttl</A>
+<UL>
+<LI><A ID="tex2html675"
+  HREF="node22.html#SECTION00462100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html676"
+  HREF="node22.html#SECTION00462200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html677"
+  HREF="node22.html#SECTION00463000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN> tos</A>
+<UL>
+<LI><A ID="tex2html678"
+  HREF="node22.html#SECTION00463100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html679"
+  HREF="node22.html#SECTION00463200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html680"
+  HREF="node22.html#SECTION00464000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">4</SPAN> id</A>
+<UL>
+<LI><A ID="tex2html681"
+  HREF="node22.html#SECTION00464100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html682"
+  HREF="node22.html#SECTION00464200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html683"
+  HREF="node22.html#SECTION00465000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">5</SPAN> ipopts</A>
+<UL>
+<LI><A ID="tex2html684"
+  HREF="node22.html#SECTION00465100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html685"
+  HREF="node22.html#SECTION00465200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+<LI><A ID="tex2html686"
+  HREF="node22.html#SECTION00465300000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">3</SPAN> Warning</A>
+</UL>
+<BR>
+<LI><A ID="tex2html687"
+  HREF="node22.html#SECTION00466000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">6</SPAN> fragbits</A>
+<UL>
+<LI><A ID="tex2html688"
+  HREF="node22.html#SECTION00466100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html689"
+  HREF="node22.html#SECTION00466200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html690"
+  HREF="node22.html#SECTION00467000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">7</SPAN> dsize</A>
+<UL>
+<LI><A ID="tex2html691"
+  HREF="node22.html#SECTION00467100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html692"
+  HREF="node22.html#SECTION00467200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+<LI><A ID="tex2html693"
+  HREF="node22.html#SECTION00467300000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">3</SPAN> Warning</A>
+</UL>
+<BR>
+<LI><A ID="tex2html694"
+  HREF="node22.html#SECTION00468000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">8</SPAN> flags</A>
+<UL>
+<LI><A ID="tex2html695"
+  HREF="node22.html#SECTION00468100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html696"
+  HREF="node22.html#SECTION00468200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html697"
+  HREF="node22.html#SECTION00469000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">9</SPAN> flow</A>
+<UL>
+<LI><A ID="tex2html698"
+  HREF="node22.html#SECTION00469100000000000000">Options</A>
+<LI><A ID="tex2html699"
+  HREF="node22.html#SECTION00469200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html700"
+  HREF="node22.html#SECTION004610000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">10</SPAN> flowbits</A>
+<UL>
+<LI><A ID="tex2html701"
+  HREF="node22.html#SECTION004610100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">10</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</UL>
+<BR>
+<LI><A ID="tex2html702"
+  HREF="node22.html#SECTION004611000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">11</SPAN> seq</A>
+<UL>
+<LI><A ID="tex2html703"
+  HREF="node22.html#SECTION004611100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">11</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html704"
+  HREF="node22.html#SECTION004611200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">11</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html705"
+  HREF="node22.html#SECTION004612000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">12</SPAN> ack</A>
+<UL>
+<LI><A ID="tex2html706"
+  HREF="node22.html#SECTION004612100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">12</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html707"
+  HREF="node22.html#SECTION004612200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">12</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html708"
+  HREF="node22.html#SECTION004613000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">13</SPAN> window</A>
+<UL>
+<LI><A ID="tex2html709"
+  HREF="node22.html#SECTION004613100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">13</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html710"
+  HREF="node22.html#SECTION004613200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">13</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html711"
+  HREF="node22.html#SECTION004614000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">14</SPAN> itype</A>
+<UL>
+<LI><A ID="tex2html712"
+  HREF="node22.html#SECTION004614100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">14</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html713"
+  HREF="node22.html#SECTION004614200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">14</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html714"
+  HREF="node22.html#SECTION004615000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">15</SPAN> icode</A>
+<UL>
+<LI><A ID="tex2html715"
+  HREF="node22.html#SECTION004615100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">15</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html716"
+  HREF="node22.html#SECTION004615200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">15</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html717"
+  HREF="node22.html#SECTION004616000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">16</SPAN> icmp_id</A>
+<UL>
+<LI><A ID="tex2html718"
+  HREF="node22.html#SECTION004616100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">16</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html719"
+  HREF="node22.html#SECTION004616200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">16</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html720"
+  HREF="node22.html#SECTION004617000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">17</SPAN> icmp_seq</A>
+<UL>
+<LI><A ID="tex2html721"
+  HREF="node22.html#SECTION004617100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">17</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html722"
+  HREF="node22.html#SECTION004617200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">17</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html723"
+  HREF="node22.html#SECTION004618000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">18</SPAN> rpc</A>
+<UL>
+<LI><A ID="tex2html724"
+  HREF="node22.html#SECTION004618100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">18</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html725"
+  HREF="node22.html#SECTION004618200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">18</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+<LI><A ID="tex2html726"
+  HREF="node22.html#SECTION004618300000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">18</SPAN>.<SPAN CLASS="arabic">3</SPAN> Warning</A>
+</UL>
+<BR>
+<LI><A ID="tex2html727"
+  HREF="node22.html#SECTION004619000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">19</SPAN> ip_proto</A>
+<UL>
+<LI><A ID="tex2html728"
+  HREF="node22.html#SECTION004619100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">19</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html729"
+  HREF="node22.html#SECTION004619200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">19</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html730"
+  HREF="node22.html#SECTION004620000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">20</SPAN> sameip</A>
+<UL>
+<LI><A ID="tex2html731"
+  HREF="node22.html#SECTION004620100000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">20</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html732"
+  HREF="node22.html#SECTION004620200000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">20</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</UL>
+<BR>
+<LI><A ID="tex2html733"
+  HREF="node22.html#SECTION004621000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">21</SPAN> Non-Payload Detection Quick Reference</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A ID="SECTION00460000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN> Non-Payload Detection Rule Options</A>
+</H1>
+
+<H2><A ID="SECTION00461000000000000000"></A><A ID="fragoffset_section"></A>
+<BR>
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> fragoffset 
+</H2>
+
+<P>
+The fragoffset keyword allows one to compare the IP fragment offset
+field against a decimal value. To catch all the first fragments of
+an IP session, you could use the fragbits keyword and look for the
+More fragments option in conjunction with a fragoffset of 0.
+
+<P>
+
+<H3><A ID="SECTION00461100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+fragoffset:[&lt;|&gt;]&lt;number&gt;;
+</PRE>
+
+<P>
+
+<DIV class="CENTER"><A ID="fragoffset_usage_example"></A><A ID="3313"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Fragoffset Usage Example</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 9.08ex; " SRC="img60.svg"
+ ALT="\begin{figure}\begin{verbatim}alert ip any any -&gt; any any \
+(msg: ''First Fragment''; fragbits: M; fragoffset: 0;)\end{verbatim}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00462000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> ttl</A>
+</H2>
+
+<P>
+The ttl keyword is used to check the IP time-to-live value.  This option
+keyword was intended for use in the detection of traceroute attempts.
+
+<P>
+
+<H3><A ID="SECTION00462100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+ttl:[[&lt;number&gt;-]&gt;&lt;=]&lt;number&gt;;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION00462200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+
+<P>
+This example checks for a time-to-live value that is less than 3.
+<PRE>
+ttl:&lt;3;
+</PRE>
+
+<P>
+This example checks for a time-to-live value that between 3 and 5.
+<PRE>
+ttl:3-5;
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION00463000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN> tos</A>
+</H2>
+
+<P>
+The tos keyword is used to check the IP TOS field for a specific value. 
+
+<P>
+
+<H3><A ID="SECTION00463100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+tos:[!]&lt;number&gt;;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION00463200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+
+<P>
+This example looks for a tos value that is not 4
+<PRE>
+tos:!4;
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION00464000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">4</SPAN> id</A>
+</H2>
+
+<P>
+The id keyword is used to check the IP ID field for a specific value.  Some
+tools (exploits, scanners and other odd programs) set this field specifically
+for various purposes, for example, the value 31337 is very popular with some
+hackers. 
+
+<P>
+
+<H3><A ID="SECTION00464100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+id:&lt;number&gt;;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION00464200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+
+<P>
+This example looks for the IP ID of 31337.
+<PRE>
+id:31337;
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION00465000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">5</SPAN> ipopts</A>
+</H2>
+
+<P>
+The ipopts keyword is used to check if a specific IP option is present.
+
+<P>
+The following options may be checked:
+<DL>
+<DT><STRONG>rr</STRONG></DT>
+<DD>- Record Route 
+</DD>
+<DT><STRONG>eol</STRONG></DT>
+<DD>- End of list 
+</DD>
+<DT><STRONG>nop</STRONG></DT>
+<DD>- No Op 
+</DD>
+<DT><STRONG>ts</STRONG></DT>
+<DD>- Time Stamp 
+</DD>
+<DT><STRONG>sec</STRONG></DT>
+<DD>- IP Security
+</DD>
+<DT><STRONG>esec</STRONG></DT>
+<DD>- IP Extended Security
+</DD>
+<DT><STRONG>lsrr</STRONG></DT>
+<DD>- Loose Source Routing 
+</DD>
+<DT><STRONG>ssrr</STRONG></DT>
+<DD>- Strict Source Routing 
+</DD>
+<DT><STRONG>satid</STRONG></DT>
+<DD>- Stream identifier
+</DD>
+<DT><STRONG>any</STRONG></DT>
+<DD>- any IP options are set
+</DD>
+</DL>
+
+<P>
+The most frequently watched for IP options are strict and loose source
+routing which aren't used in any widespread internet applications.
+
+<P>
+
+<H3><A ID="SECTION00465100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+ipopts:&lt;rr|eol|nop|ts|sec|esec|lsrr|ssrr|satid|any&gt;;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION00465200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+This example looks for the IP Option of Loose Source Routing.
+<PRE>
+ipopts:lsrr;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION00465300000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">3</SPAN> Warning</A>
+</H3>
+Only a single ipopts keyword may be specified per rule.
+
+<P>
+
+<H2><A ID="SECTION00466000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">6</SPAN> fragbits</A>
+</H2>
+
+<P>
+The <SPAN  CLASS="texttt">fragbits</SPAN> keyword is used to check if fragmentation and reserved bits are set in the IP header.
+
+<P>
+The following bits may be checked:
+<DL>
+<DT><STRONG>M</STRONG></DT>
+<DD>- More Fragments
+</DD>
+<DT><STRONG>D</STRONG></DT>
+<DD>- Don't Fragment
+</DD>
+<DT><STRONG>R</STRONG></DT>
+<DD>- Reserved Bit
+</DD>
+</DL>
+
+<P>
+The following modifiers can be set to change the match criteria:
+<DL>
+<DT><STRONG>+</STRONG></DT>
+<DD>match on the specified bits, plus any others
+</DD>
+<DT><STRONG>*</STRONG></DT>
+<DD>match if any of the specified bits are set
+</DD>
+<DT><STRONG>!</STRONG></DT>
+<DD>match if the specified bits are not set
+</DD>
+</DL>
+
+<P>
+
+<H3><A ID="SECTION00466100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+fragbits:[+*!]&lt;[MDR]&gt;;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION00466200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+
+<P>
+This example checks if the More Fragments bit and the Do not Fragment bit are
+set.
+<PRE>
+fragbits:MD+;
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION00467000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">7</SPAN> dsize</A>
+</H2>
+
+<P>
+The dsize keyword is used to test the packet payload size.  This may be used to check for abnormally sized packets.  In many cases, it is useful for detecting buffer overflows.
+
+<P>
+
+<H3><A ID="SECTION00467100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+<PRE>
+dsize: [&lt;&gt;]&lt;number&gt;[&lt;&gt;&lt;number&gt;];
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION00467200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+This example looks for a dsize that is between 300 and 400 bytes.
+<PRE>
+dsize:300&lt;&gt;400;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION00467300000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">3</SPAN> Warning</A>
+</H3>
+dsize will fail on stream rebuilt packets, regardless of the size of the
+payload.
+
+<P>
+
+<H2><A ID="SECTION00468000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">8</SPAN> flags</A>
+</H2>
+
+<P>
+The flags keyword is used to check if specific TCP flag bits are present.
+
+<P>
+The following bits may be checked:
+<DL>
+<DT><STRONG>F</STRONG></DT>
+<DD>- FIN (LSB in TCP Flags byte)
+</DD>
+<DT><STRONG>S</STRONG></DT>
+<DD>- SYN 
+</DD>
+<DT><STRONG>R</STRONG></DT>
+<DD>- RST 
+</DD>
+<DT><STRONG>P</STRONG></DT>
+<DD>- PSH 
+</DD>
+<DT><STRONG>A</STRONG></DT>
+<DD>- ACK 
+</DD>
+<DT><STRONG>U</STRONG></DT>
+<DD>- URG 
+</DD>
+<DT><STRONG>1</STRONG></DT>
+<DD>- Reserved bit 1 (MSB in TCP Flags byte)
+</DD>
+<DT><STRONG>2</STRONG></DT>
+<DD>- Reserved bit 2 
+</DD>
+<DT><STRONG>0</STRONG></DT>
+<DD>- No TCP Flags Set
+</DD>
+</DL>
+
+<P>
+The following modifiers can be set to change the match criteria:
+<DL>
+<DT><STRONG>+</STRONG></DT>
+<DD>- match on the specified bits, plus any others
+</DD>
+<DT><STRONG>*</STRONG></DT>
+<DD>- match if any of the specified bits are set
+</DD>
+<DT><STRONG>!</STRONG></DT>
+<DD>- match if the specified bits are not set
+</DD>
+</DL>
+
+<P>
+To handle writing rules for session initiation packets such as ECN where a SYN
+packet is sent with the previously reserved bits 1 and 2 set, an option mask
+may be specified. A rule could check for a flags value of S,12 if one wishes to
+find packets with just the syn bit, regardless of the values of the reserved
+bits.
+
+<P>
+
+<H3><A ID="SECTION00468100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+flags:[!|*|+]&lt;FSRPAU120&gt;[,&lt;FSRPAU120&gt;];
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION00468200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+
+<P>
+This example checks if just the SYN and the FIN bits are set, ignoring reserved
+bit 1 and reserved bit 2.
+<PRE>
+alert tcp any any -&gt; any any (flags:SF,12;)
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION00469000000000000000"></A><A ID="flow_section"></A>
+<BR>
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">9</SPAN> flow
+</H2>
+
+<P>
+The flow keyword is used in conjunction with TCP stream reassembly
+(see Section <A HREF="node11.html#stream_4_section"><IMG  ALT="[*]" SRC="crossref.png"></A>). It allows rules to only apply
+to certain directions of the traffic flow. 
+
+<P>
+This allows rules to only apply to clients or servers. This allows
+packets related to $HOME_NET clients viewing web pages to be distinguished
+from servers running the $HOME_NET.
+
+<P>
+The established keyword will replace the <SPAN  CLASS="texttt">flags: A+</SPAN> used in
+many places to show established TCP connections.
+
+<P>
+
+<H3><A ID="SECTION00469100000000000000">
+Options</A>
+</H3>
+
+<P>
+<TABLE class="PAD  BORDER" style="">
+<TR><TD CLASS="LEFT"><B>Option</B></TD>
+<TD CLASS="LEFT"><B>Description</B></TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">to_client</SPAN></TD>
+<TD CLASS="LEFT">Trigger on server responses from A to B</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">to_server</SPAN></TD>
+<TD CLASS="LEFT">Trigger on client requests from A to B</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">from_client</SPAN></TD>
+<TD CLASS="LEFT">Trigger on client requests from A to B</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">from_server</SPAN></TD>
+<TD CLASS="LEFT">Trigger on server responses from A to B</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">established</SPAN></TD>
+<TD CLASS="LEFT">Trigger only on established TCP connections</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">stateless</SPAN></TD>
+<TD CLASS="LEFT">Trigger regardless of the state of the stream processor
+(useful for packets that are designed to cause machines to crash)</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">no_stream</SPAN></TD>
+<TD CLASS="LEFT">Do not trigger on rebuilt stream packets (useful 
+for dsize and stream4)</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">only_stream</SPAN></TD>
+<TD CLASS="LEFT">Only trigger on rebuilt stream
+packets</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H3><A ID="SECTION00469200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+flow: [(established|stateless)] 
+      [,(to_client|to_server|from_client|from_server)]
+      [,(no_stream|only_stream)];
+</PRE>
+
+<DIV class="CENTER"><A ID="flow_usage_examples"></A><A ID="3316"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Flow usage examples</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 17.21ex; " SRC="img61.svg"
+ ALT="\begin{figure}\begin{verbatim}alert tcp !$HOME_NET any -&gt; $HOME_NET 21 (msg:''...
+...sg: ''Port 0 TCP traffic''; \
+flow:stateless;)\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION004610000000000000000"></A><A ID="flowbits"></A>
+<BR>
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">10</SPAN> flowbits
+</H2>
+
+<P>
+The <SPAN  CLASS="texttt">flowbits</SPAN> keyword is used in conjunction with conversation
+tracking from the Flow preprocessor (see Section<A HREF="node11.html#sub:flow"><IMG  ALT="[*]" SRC="crossref.png"></A>).  It allows
+rules to track states across transport protocol sessions.  The flowbits option
+is most useful for TCP sessions, as it allows rules to generically track the
+state of an application protocol.
+
+<P>
+There are seven keywords associated with flowbits. Most of the options need a
+user-defined name for the specific state that is being checked.  This string
+should be limited to any alphanumeric string including periods, dashes, and
+underscores.
+
+<P>
+<TABLE class="PAD  BORDER" style="">
+<TR><TD CLASS="LEFT"><B>Option</B></TD>
+<TD CLASS="LEFT"><B>Description</B></TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">set</SPAN></TD>
+<TD CLASS="LEFT">Sets the specified state for the current flow.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">unset</SPAN></TD>
+<TD CLASS="LEFT">Unsets the specified state for the current flow.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">toggle</SPAN></TD>
+<TD CLASS="LEFT">Sets the specified state if the state is unset, otherwise unsets the 
+state if the state is set.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">isset</SPAN></TD>
+<TD CLASS="LEFT">Checks if the specified state is set.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">isnotset</SPAN></TD>
+<TD CLASS="LEFT">Checks if the specified state is not set.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">noalert</SPAN></TD>
+<TD CLASS="LEFT">Cause the rule to not generate an alert, regardless of the rest of the detection options.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H3><A ID="SECTION004610100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">10</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+flowbits: [set|unset|toggle|isset|reset|noalert][,&lt;STATE_NAME&gt;];
+</PRE>
+
+<P>
+
+<DIV class="CENTER"><A ID="flowbits_usage_examples"></A><A ID="3319"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Flowbits Usage Examples</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 20.18ex; " SRC="img62.svg"
+ ALT="\begin{figure}\begin{verbatim}alert tcp any 143 -&gt; any any (msg:''IMAP login''...
+... content:''LIST'';
+flowbits:isset,logged_in;)\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION004611000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">11</SPAN> seq</A>
+</H2>
+
+<P>
+The seq keyword is used to check for a specific TCP sequence number.
+
+<P>
+
+<H3><A ID="SECTION004611100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">11</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+<PRE>
+seq:&lt;number&gt;;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION004611200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">11</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+This example looks for a TCP sequence number of 0.
+
+<P>
+<PRE>
+seq:0;
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION004612000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">12</SPAN> ack</A>
+</H2>
+
+<P>
+The ack keyword is used to check for a specific TCP acknowledge number.
+
+<P>
+
+<H3><A ID="SECTION004612100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">12</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+<PRE>
+ack: &lt;number&gt;;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION004612200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">12</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+This example looks for a TCP acknowledge number of 0.
+<PRE>
+ack:0;
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION004613000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">13</SPAN> window</A>
+</H2>
+
+<P>
+The window keyword is used to check for a specific TCP window size.
+
+<P>
+
+<H3><A ID="SECTION004613100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">13</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+window:[!]&lt;number&gt;;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION004613200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">13</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+This example looks for a TCP window size of 55808.
+<PRE>
+window:55808;
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION004614000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">14</SPAN> itype</A>
+</H2>
+
+<P>
+The itype keyword is used to check for a specific ICMP type value.
+
+<P>
+
+<H3><A ID="SECTION004614100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">14</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+itype:[&lt;|&gt;]&lt;number&gt;[&lt;&gt;&lt;number&gt;];
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION004614200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">14</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+
+<P>
+This example looks for an ICMP type greater than 30.
+<PRE>
+itype:&gt;30;
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION004615000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">15</SPAN> icode</A>
+</H2>
+
+<P>
+The itype keyword is used to check for a specific ICMP code value.
+
+<P>
+
+<H3><A ID="SECTION004615100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">15</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+<PRE>
+icode: [&lt;|&gt;]&lt;number&gt;[&lt;&gt;&lt;number&gt;];
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION004615200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">15</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+This example looks for an ICMP code greater than 30.
+<PRE>
+code:&gt;30;
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION004616000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">16</SPAN> icmp_id</A>
+</H2>
+
+<P>
+The itype keyword is used to check for a specific ICMP ID value.
+
+<P>
+This is useful because some covert channel programs use static ICMP fields when
+they communicate.  This particular plugin was developed to detect the
+stacheldraht DDoS agent.
+
+<P>
+
+<H3><A ID="SECTION004616100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">16</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+icmp_id:&lt;number&gt;;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION004616200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">16</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+
+<P>
+This example looks for an ICMP ID of 0.
+<PRE>
+icmp_id:0;
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION004617000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">17</SPAN> icmp_seq</A>
+</H2>
+
+<P>
+The itype keyword is used to check for a specific ICMP sequence value.
+
+<P>
+This is useful because some covert channel programs use static ICMP fields when
+they communicate.  This particular plugin was developed to detect the
+stacheldraht DDoS agent.
+
+<P>
+
+<H3><A ID="SECTION004617100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">17</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+icmp_seq:&lt;number&gt;;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION004617200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">17</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+
+<P>
+This example looks for an ICMP Sequence of 0.
+<PRE>
+icmp_seq:0;
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION004618000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">18</SPAN> rpc</A>
+</H2>
+
+<P>
+The rpc keyword is used to check for a RPC application, version, and procedure numbers in SUNRPC CALL requests.
+
+<P>
+Wildcards are valid for both version and procedure numbers by using '*';
+
+<P>
+
+<H3><A ID="SECTION004618100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">18</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+rpc: &lt;application number&gt;, [&lt;version number&gt;|*], [&lt;procedure number&gt;|*]&gt;;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION004618200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">18</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+
+<P>
+The following example looks for an RPC portmap GETPORT request.
+
+<P>
+<PRE>
+alert tcp any any -&gt; any 111 (rpc: 100000,*,3;);
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION004618300000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">18</SPAN>.<SPAN CLASS="arabic">3</SPAN> Warning</A>
+</H3>
+
+<P>
+Because of the fast pattern matching engine, the RPC keyword is slower than looking for the RPC values by using normal content matching.
+
+<P>
+
+<H2><A ID="SECTION004619000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">19</SPAN> ip_proto</A>
+</H2>
+
+<P>
+The ip_proto keyword allows checks against the IP protocol header.  For a list
+of protocols that may be specified by name, see /etc/protocols. 
+
+<P>
+
+<H3><A ID="SECTION004619100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">19</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+ip_proto:[!|&gt;|&lt;] &lt;name or number&gt;;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION004619200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">19</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+This example looks for IGMP traffic.
+
+<P>
+<PRE>
+alert ip any any -&gt; any any (ip_proto:igmp;)
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION004620000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">20</SPAN> sameip</A>
+</H2>
+
+<P>
+The sameip keyword allows rules to check if the source ip is the same as the destination IP.
+
+<P>
+
+<H3><A ID="SECTION004620100000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">20</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H3>
+
+<P>
+<PRE>
+sameip;
+</PRE>
+
+<P>
+
+<H3><A ID="SECTION004620200000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">20</SPAN>.<SPAN CLASS="arabic">2</SPAN> Example</A>
+</H3>
+
+<P>
+This example looks for any traffic where the Source IP and the Destination IP is the same.
+
+<P>
+<PRE>
+alert ip any any -&gt; any any (sampeip;)
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION004621000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">21</SPAN> Non-Payload Detection Quick Reference</A>
+</H2>
+<DIV class="CENTER">
+<A ID="2524"></A>
+<TABLE class="PAD  BORDER" style="">
+<CAPTION><STRONG>Table:</STRONG>
+Non-payload detection rule option keywords</CAPTION>
+<TR><TD CLASS="LEFT">Keyword</TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>Description</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">fragoffset</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The fragoffset keyword allows one to compare the IP fragment
+offset field against a decimal value.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">ttl</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The ttl keyword is used to check the IP time-to-live value.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">tos</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The tos keyword is used to check the IP TOS field for a specific
+value.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">id</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The id keyword is used to check the IP ID field for a specific value.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">ipopts</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The ipopts keyword is used to check if a specific IP option is
+present.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">fragbits</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The fragbits keyword is used to check if fragmentation and
+reserved bits are set in the IP header.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">dsize</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The dsize keyword is used to test the packet payload size.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">flags</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The flags keyword is used to check if specific TCP flag bits are
+present.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">flow</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The flow keyword allows rules to only apply to certain directions of
+the traffic flow.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">flowbits</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The flowbits keyword allows rules to track states across
+transport protocol sessions.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">seq</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The seq keyword is used to check for a specific TCP sequence number.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">ack</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The ack keyword is used to check for a specific TCP acknowledge
+number.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">window</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The window keyword is used to check for a specific TCP window
+size.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">itype</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The itype keyword is used to check for a specific ICMP type value.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">icode</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The icode keyword is used to check for a specific ICMP code value.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">icmp_id</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The icmp_id keyword is used to check for a specific ICMP ID value.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">icmp_seq</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The icmp_seq keyword is used to check for a specific ICMP sequence
+value.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">rpc</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The rpc keyword is used to check for a RPC application, version, and
+procedure numbers in SUNRPC CALL requests.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">ip_proto</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The ip_proto keyword allows checks against the IP protocol
+header.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">sameip</SPAN></TD>
+<TD CLASS="LEFT TOP"  WIDTH=92>The sameip keyword allows rules to check if the source ip is the
+same as the destination IP.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=461>&nbsp;</TD>
+</TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="node23.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node21.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html670"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node23.html">3.7 Post-Detection Rule Options</A>
+<B> Up:</B> <A
+ HREF="node16.html">3. Writing Snort Rules: How</A>
+<B> Previous:</B> <A
+ HREF="node21.html">3.5 Payload Detection Rule Options</A>
+ &nbsp; <B>  <A ID="tex2html671"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

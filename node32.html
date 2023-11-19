@@ -1,0 +1,416 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>5.2 Required Functions</TITLE>
+<META NAME="description" CONTENT="5.2 Required Functions">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="next" HREF="node33.html">
+<LINK REL="previous" HREF="node31.html">
+<LINK REL="next" HREF="node33.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node33.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node30.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node31.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html816"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node33.html">5.3 Examples</A>
+<B> Up:</B> <A
+ HREF="node30.html">5. Dynamic Modules</A>
+<B> Previous:</B> <A
+ HREF="node31.html">5.1 Data Structures</A>
+ &nbsp; <B>  <A ID="tex2html817"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A ID="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A ID="tex2html818"
+  HREF="node32.html#SECTION00621000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN> Preprocessors</A>
+<LI><A ID="tex2html819"
+  HREF="node32.html#SECTION00622000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">2</SPAN> Detection Engine</A>
+<LI><A ID="tex2html820"
+  HREF="node32.html#SECTION00623000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">3</SPAN> Rules</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A ID="SECTION00620000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> Required Functions</A>
+</H1>
+
+<P>
+Each dynamic module must define a set of functions and data objects
+to work within this framework.
+
+<P>
+
+<H2><A ID="SECTION00621000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN> Preprocessors</A>
+</H2>
+
+<P>
+Each dynamic preprocessor library must define the following functions.  These
+are defined in the file <SPAN  CLASS="texttt">sf_dynamic_preproc_lib.c</SPAN>.  The metadata
+and setup function for the preprocessor should be defined
+<SPAN  CLASS="texttt">sf_preproc_info.h</SPAN>.
+
+<P>
+
+<UL>
+<LI><EM>int LibVersion(DynamicPluginMeta *)</EM>
+
+<P>
+This function returns the metadata for the shared library.
+
+<P>
+</LI>
+<LI><EM>int InitializePreprocessor(DynamicPreprocessorData *)</EM>
+
+<P>
+This function initializes the data structure for use by the preprocessor
+into a library global variable, <SPAN  CLASS="texttt">_dpd</SPAN> and invokes the setup
+function.
+</LI>
+</UL>
+
+<P>
+
+<H2><A ID="SECTION00622000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">2</SPAN> Detection Engine</A>
+</H2>
+
+<P>
+Each dynamic detection engine library must define the following functions.
+
+<P>
+
+<UL>
+<LI><EM>int LibVersion(DynamicPluginMeta *)</EM>
+
+<P>
+This function returns the metadata for the shared library.
+
+<P>
+</LI>
+<LI><EM>int InitializeEngineLib(DynamicEngineData *)</EM>
+
+<P>
+This function initializes the data structure for use by the engine.
+</LI>
+</UL>
+
+<P>
+The sample code provided with Snort predefines those functions 
+and defines the following APIs to be used by a dynamic rules
+library.
+
+<P>
+
+<UL>
+<LI><EM>int RegisterRules(Rule **)</EM>
+
+<P>
+This is the function to iterate through each rule in the list,
+initialize it to setup content searches, PCRE evalution data,
+and register flowbits.
+
+<P>
+</LI>
+<LI><EM>int DumpRules(char *,Rule **)</EM>
+
+<P>
+This is the function to iterate through each rule in the list and
+write a rule-stop to be used by snort to control the action of the
+rule (alert, log, drop, etc).
+
+<P>
+</LI>
+<LI><EM>int ruleMatch(void *p, Rule *rule)</EM>
+
+<P>
+This is the function to evaluate a rule if the rule does not have
+its own Rule Evaluation Function.  This uses the individual
+functions outlined below for each of the rule options and handles
+repetitive content issues.  
+
+<P>
+Each of the functions below returns RULE_MATCH if the option
+matches based on the current criteria (cursor position, etc).
+
+<P>
+
+<UL>
+<LI><EM>int contentMatch(void *p, ContentInfo* content, u_int8_t **cursor)</EM>
+
+<P>
+This function evaluates a single content for a given packet, checking
+for the existence of that content as delimited by ContentInfo and
+cursor.  Cursor position is updated and returned in *cursor.
+
+<P>
+With a text rule, the with option corresponds to depth, and the
+distance option corresponds to offset.
+
+<P>
+</LI>
+<LI><EM>int checkFlow(void *p, FlowFlags *flowflags)</EM>
+
+<P>
+This function evaluates the flow for a given packet.
+
+<P>
+</LI>
+<LI><EM>int extractValue(void *p, ByteExtract *byteExtract, u_int8_t *cursor)</EM>
+
+<P>
+This function extracts the bytes from a given packet, as specified
+by ByteExtract and delimited by cursor.  Value extracted is stored
+in ByteExtract memoryLocation paraneter.
+
+<P>
+</LI>
+<LI><EM>int processFlowbits(void *p, FlowBitsInfo *flowbits)</EM>
+
+<P>
+This function evaluates the flowbits for a given packet, as specified
+by FlowBitsInfo.  It will interact with flowbits used by text-based
+rules.
+
+<P>
+</LI>
+<LI><EM>int setCursor(void *p, CursorInfo *cursorInfo, u_int8_t **cursor)</EM>
+
+<P>
+This function adjusts the cursor as delimited by CursorInfo.
+New cursor position is returned in *cursor.  It handles bounds
+checking for the specified buffer and returns RULE_NOMATCH if
+the cursor is moved out of bounds.  
+
+<P>
+It is also used by contentMatch, byteJump, and pcreMatch to adjust
+the cursor position after a successful match.
+
+<P>
+</LI>
+<LI><EM>int checkCursor(void *p, CursorInfo *cursorInfo, u_int8_t *cursor)</EM>
+
+<P>
+This function validates that the cursor is within bounds of the
+specified buffer.
+
+<P>
+</LI>
+<LI><EM>int checkValue(void *p, ByteData *byteData, u_int32_t value, u_int8_t *cursor)</EM>
+
+<P>
+This function compares the <EM>value</EM> to the value stored in ByteData.
+
+<P>
+</LI>
+<LI><EM>int byteTest(void *p, ByteData *byteData, u_int8_t *cursor)</EM>
+
+<P>
+This is a wrapper for extractValue() followed by checkValue().
+
+<P>
+</LI>
+<LI><EM>int byteJump(void *p, ByteData *byteData, u_int8_t **cursor)</EM>
+
+<P>
+This is a wrapper for extractValue() followed by setCursor().
+
+<P>
+</LI>
+<LI><EM>int pcreMatch(void *p, PCREInfo *pcre, u_int8_t **cursor)</EM>
+
+<P>
+This function evaluates a single pcre for a given packet, checking
+for the existence of the expression as delimited by PCREInfo and
+cursor.  Cursor position is updated and returned in *cursor.
+
+<P>
+</LI>
+<LI><EM>int detectAsn1(void *p, Asn1Context *asn1, u_int8_t *cursor)</EM>
+
+<P>
+This function evaluates an ASN.1 check for a given packet, as
+delimited by Asn1Context and cursor.
+
+<P>
+</LI>
+<LI><EM>int checkHdrOpt(void *p, HdrOptCheck *optData)</EM>
+
+<P>
+This function evaluates the given packet's protocol headers,
+as specified by HdrOptCheck.
+
+<P>
+</LI>
+<LI><EM>int loopEval(void *p, LoopInfo *loop, u_int8_t **cursor)</EM>
+
+<P>
+This function iterates through the SubRule of LoopInfo, as
+delimited by LoopInfo and cursor.  Cursor position is updated and
+returned in *cursor.
+
+<P>
+</LI>
+<LI><EM>int preprocOptionEval(void *p, PreprocessorOption *preprocOpt, u_int8_t **cursor)</EM>
+
+<P>
+This function evaluates the preprocessor defined option, as
+spepcifed by PreprocessorOption.  Cursor position is updated and
+returned in *cursor.
+
+<P>
+</LI>
+<LI><EM>void setTempCursor(u_int8_t **temp_cursor, u_int8_t **cursor)</EM>
+
+<P>
+This function is used to handled repetitive contents to save off
+a cursor position temporarily to be reset at later point.
+
+<P>
+</LI>
+<LI><EM>void revertTempCursor(u_int8_t **temp_cursor, u_int8_t **cursor)</EM>
+
+<P>
+This function is used to revert to a previously saved temporary
+cursor position.
+
+<P>
+</LI>
+</UL>
+
+<P>
+
+        
+        <p><table border="1"><tr><td><b>
+        Note:&nbsp;&nbsp;</b>
+If you decide to write you own rule evaluation function, patterns
+that occur more than once may result in false negatives.  Take
+extra care to handle this situation and search for the matched pattern
+again if subsequent rule options fail to match.  This should be done
+for both content and PCRE options.
+        
+        </b></td></tr></table></p>
+</LI>
+</UL>
+
+<P>
+
+<H2><A ID="SECTION00623000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">3</SPAN> Rules</A>
+</H2>
+
+<P>
+Each dynamic rules library must define the following functions.
+Examples are defined in the file <SPAN  CLASS="texttt">sfnort_dynamic_detection_lib.c</SPAN>.
+The metadata and setup function for the preprocessor should be defined
+<SPAN  CLASS="texttt">sfsnort_dynamic_detection_lib.h</SPAN>.
+
+<P>
+
+<UL>
+<LI><EM>int LibVersion(DynamicPluginMeta *)</EM>
+
+<P>
+This function returns the metadata for the shared library.
+
+<P>
+</LI>
+<LI><EM>int EngineVersion(DynamicPluginMeta *)</EM>
+
+<P>
+This function defines the version requirements for the corresponding
+detection engine library.
+
+<P>
+</LI>
+<LI><EM>int DumpSkeletonRules()</EM>
+
+<P>
+This functions writes out the rule-stubs for rules that are loaded.
+
+<P>
+</LI>
+<LI><EM>int InitializeDetection()</EM>
+
+<P>
+This function registers each rule in the rules library.  It should
+set up fast pattern-matcher content, register flowbits, etc.
+</LI>
+</UL>
+
+<P>
+The sample code provided with Snort predefines those functions 
+and uses the following data within the dynamic rules library.
+
+<P>
+
+<UL>
+<LI><EM>Rule *rules[]</EM>
+
+<P>
+A NULL terminated list of Rule structures that this library defines.
+
+<P>
+</LI>
+</UL>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="node33.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node30.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node31.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html816"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node33.html">5.3 Examples</A>
+<B> Up:</B> <A
+ HREF="node30.html">5. Dynamic Modules</A>
+<B> Previous:</B> <A
+ HREF="node31.html">5.1 Data Structures</A>
+ &nbsp; <B>  <A ID="tex2html817"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

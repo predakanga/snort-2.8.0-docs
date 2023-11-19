@@ -1,0 +1,382 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>1.5 Inline Mode</TITLE>
+<META NAME="description" CONTENT="1.5 Inline Mode">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="next" HREF="node8.html">
+<LINK REL="previous" HREF="node6.html">
+<LINK REL="next" HREF="node8.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node8.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node6.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html321"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node8.html">1.6 Miscellaneous</A>
+<B> Up:</B> <A
+ HREF="node2.html">1. Snort Overview</A>
+<B> Previous:</B> <A
+ HREF="node6.html">1.4 Network Intrusion Detection System</A>
+ &nbsp; <B>  <A ID="tex2html322"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A ID="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A ID="tex2html323"
+  HREF="node7.html#SECTION00251000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Snort Inline Rule Application Order</A>
+<LI><A ID="tex2html324"
+  HREF="node7.html#SECTION00252000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> New STREAM4 Options for Use with Snort Inline</A>
+<LI><A ID="tex2html325"
+  HREF="node7.html#SECTION00253000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">3</SPAN> Replacing Packets with Snort Inline</A>
+<LI><A ID="tex2html326"
+  HREF="node7.html#SECTION00254000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">4</SPAN> Installing Snort Inline</A>
+<LI><A ID="tex2html327"
+  HREF="node7.html#SECTION00255000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">5</SPAN> Running Snort Inline</A>
+<LI><A ID="tex2html328"
+  HREF="node7.html#SECTION00256000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">6</SPAN> Using the Honeynet Snort Inline Toolkit</A>
+<LI><A ID="tex2html329"
+  HREF="node7.html#SECTION00257000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">7</SPAN> Troubleshooting Snort Inline</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A ID="SECTION00250000000000000000"></A><A ID="Snort_Inline"></A>
+<BR>
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN> Inline Mode
+</H1>
+
+<P>
+Snort 2.3.0 RC1 integrated the intrusion prevention system (IPS) capability of
+<SPAN  CLASS="texttt">Snort Inline</SPAN> into the official Snort project. <SPAN  CLASS="texttt">Snort Inline</SPAN> obtains packets
+from iptables instead of libpcap and then uses new rule types to help iptables
+pass or drop packets based on Snort rules.  
+
+<P>
+In order for <SPAN  CLASS="texttt">Snort Inline</SPAN> to work properly, you must download and compile the
+iptables code to include &ldquo;make install-devel&rdquo;
+(http://www.iptables.org).  This will install the <SPAN  CLASS="texttt">libipq</SPAN> library
+that allows <SPAN  CLASS="texttt">Snort Inline</SPAN> to interface with iptables.  Also, you must build and
+install LibNet, which is available from http://www.packetfactory.net.
+
+<P>
+There are three rule types you can use when running Snort with <SPAN  CLASS="texttt">Snort Inline</SPAN>:
+
+<P>
+
+<UL>
+<LI><SPAN  CLASS="textbf">drop</SPAN> - The drop rule type will tell iptables to drop the packet and log it 
+       via usual Snort means.
+</LI>
+<LI><SPAN  CLASS="textbf">reject</SPAN> - The reject rule type will tell iptables to drop the packet, log it 
+         via usual Snort means, and send a TCP reset if the protocol is 
+         TCP or an icmp port unreachable if the protocol is UDP.
+</LI>
+<LI><SPAN  CLASS="textbf">sdrop</SPAN> - The sdrop rule type will tell iptables to drop the packet.  Nothing
+        is logged.
+</LI>
+</UL>
+
+<P>
+
+        
+        <p><table border="1"><tr><td><b>
+        Note:&nbsp;&nbsp;</b>
+You can also replace sections of the packet payload when using <SPAN  CLASS="texttt">Snort Inline</SPAN>.
+See Section <A HREF="#ReplaceInline"><IMG  ALT="[*]" SRC="crossref.png"></A> for more information.
+        
+        </b></td></tr></table></p>
+
+<P>
+When using a <SPAN  CLASS="texttt">reject</SPAN> rule, there are two options you can use to send
+TCP resets:
+
+<UL>
+<LI>You can use a RAW socket (the default behavior for <SPAN  CLASS="texttt">Snort Inline</SPAN>), in which case you must have an interface that has an IP address assigned to it. If there is not an interface with an IP address assigned with access to the source of the packet, the packet will be logged and the reset packet will never make it onto the network.
+
+<P>
+</LI>
+<LI>You can also now perform resets via a physical device when using iptables.  We take the indev name from ip_queue and use this as the interface on which to send resets. We no longer need an IP loaded on the bridge, and can remain pretty stealthy as the <SPAN  CLASS="texttt">config layer2_resets</SPAN> in snort_inline.conf takes a source MAC address which we substitue for the MAC of the bridge. For example:
+<PRE>
+config layer2resets
+</PRE>
+tells <SPAN  CLASS="texttt">Snort Inline</SPAN> to use layer2 resets and uses the MAC address of the bridge as the source MAC in the packet, and:
+<PRE>
+config layer2resets: 00:06:76:DD:5F:E3
+</PRE>
+will tell Snort Inline to use layer2 resets and uses the source MAC of 
+00:06:76:DD:5F:E3 in the reset packet.
+
+<P>
+</LI>
+<LI>The command-line option <SPAN  CLASS="texttt">&ndash;disable-inline-initialization</SPAN> can be
+used to not initialize IPTables when in inline mode.  To be used with
+command-line option <SPAN  CLASS="texttt">-T</SPAN> to test for a valid configuration without
+requiring opening inline devices and adversely affecting traffic flow.
+
+<P>
+</LI>
+</UL>
+
+<P>
+
+<H2><A ID="SECTION00251000000000000000"></A><A ID="InlineRuleOrder"></A>
+<BR>
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Snort Inline Rule Application Order
+</H2>
+
+<P>
+The current rule application order is: 
+<PRE>
+	-&gt;activation-&gt;dynamic-&gt;drop-&gt;sdrop-&gt;reject-&gt;alert-&gt;pass-&gt;log
+</PRE>
+This will ensure that a drop rule has precedence over an alert or log rule.
+You can use the -o flag to change the rule application order to:
+<PRE>
+	-&gt;activation-&gt;dynamic-&gt;pass-&gt;drop-&gt;sdrop-&gt;reject-&gt;alert-&gt;log
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION00252000000000000000"></A><A ID="Stream4Inline"></A>
+<BR>
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> New STREAM4 Options for Use with Snort Inline
+</H2>
+
+<P>
+When using <SPAN  CLASS="texttt">Snort Inline</SPAN>, you can use two additional stream4 options:
+
+<P>
+
+<UL>
+<LI><SPAN  CLASS="texttt">enforce_state drop</SPAN>
+
+<P>
+Adding <SPAN  CLASS="texttt">drop</SPAN> to the <SPAN  CLASS="texttt">enforce_state</SPAN> option causes Snort to
+    drop TCP packets that are not associated with an existing TCP session, and
+    that are not valid TCP initiators.
+
+<P>
+</LI>
+<LI><SPAN  CLASS="texttt">midstream_drop_alerts</SPAN> (no arguments)
+
+<P>
+By default, when running in inline mode, Snort will silently drop any
+    packets that are matched against a <SPAN  CLASS="texttt">drop</SPAN> rule and considered
+    to be part of a midstream session, instead of logging the alert as usual.
+    This is to mitigate stick/snot type attacks when the user
+    hasn't enabled the <SPAN  CLASS="texttt">enforce_state</SPAN> option.  If you want to log
+    these drops, enable this option. Note
+    that by enabling this option, you have opened yourself up to
+    stick/snot-type attacks if you haven't also used the
+    <SPAN  CLASS="texttt">enforce_state</SPAN> option.
+
+<P>
+</LI>
+<LI><SPAN  CLASS="texttt">disable_session_blocking</SPAN> (no arguments)
+
+<P>
+By default, when running in inline mode, Snort will block all traffic
+    on a TCP session after it is told to drop a non-stateless packet on
+    that session. Enable this option if you don't want Snort to exhibit
+    this default behavior.
+
+<P>
+</LI>
+</UL>
+
+<P>
+For more information about Stream4, see Section <A HREF="node11.html#stream_4_section"><IMG  ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+
+<H2><A ID="SECTION00253000000000000000"></A><A ID="ReplaceInline"></A>
+<BR>
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">3</SPAN> Replacing Packets with Snort Inline
+</H2>
+
+<P>
+Additionally, Jed Haile's content replace code allows you to modify packets
+before they leave the network.  For example:
+
+<P>
+<PRE>
+alert tcp any any &lt;&gt; any 80 (msg: "tcp replace"; content:"GET"; replace:"BET";)
+alert udp any any &lt;&gt; any 53 (msg: "udp replace"; \
+    content: "yahoo"; replace: "xxxxx";)
+</PRE>
+
+<P>
+These rules will comb TCP port 80 traffic looking for GET, and UDP port 53
+traffic looking for yahoo.  Once they are found, they are replaced with BET and
+xxxxx, respectively.  The only catch is that the replace must be the same
+length as the content.
+
+<P>
+
+<H2><A ID="SECTION00254000000000000000"></A><A ID="InlineInstall"></A>
+<BR>
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">4</SPAN> Installing Snort Inline
+</H2>
+To install Snort inline, use the following command:
+<PRE>
+./configure --enable-inline
+make
+make install
+</PRE> 
+
+<P>
+
+<H2><A ID="SECTION00255000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">5</SPAN> Running Snort Inline</A>
+</H2>
+
+<P>
+First, you need to ensure that the ip_queue module is loaded.  Then,
+you need to send traffic to Snort Inline using the QUEUE target.  For
+example:
+<PRE>
+iptables -A OUTPUT -p tcp --dport 80 -j QUEUE
+</PRE>
+sends all TCP traffic leaving the firewall going to port 80 to the QUEUE
+target.  This is what sends the packet from kernel space to user space 
+(<SPAN  CLASS="texttt">Snort Inline</SPAN>).  A quick way to get all outbound traffic going to the
+QUEUE is to use the rc.firewall script created and maintained by the 
+Honeynet Project (http://www.honeynet.org/papers/honeynet/tools/)
+This script is well-documented and allows you to direct packets
+to <SPAN  CLASS="texttt">Snort Inline</SPAN> by simply changing the QUEUE variable to yes.
+
+<P>
+Finally, start Snort Inline:
+
+<P>
+<PRE>
+snort_inline -QDc ../etc/drop.conf -l /var/log/snort
+</PRE>
+
+<P>
+You can use the following command line options:
+
+<UL>
+<LI><SPAN  CLASS="texttt">-Q</SPAN> - Gets packets from iptables.
+</LI>
+<LI><SPAN  CLASS="texttt">-D</SPAN> - Runs <SPAN  CLASS="texttt">Snort Inline</SPAN> in daemon mode.  The process ID is stored
+                    at <SPAN  CLASS="texttt">/var/run/snort_inline.pid</SPAN>
+</LI>
+<LI><SPAN  CLASS="texttt">-c</SPAN> - Reads the following configuration file.
+</LI>
+<LI><SPAN  CLASS="texttt">-l</SPAN> - Logs to the following directory.
+
+<P>
+</LI>
+</UL>
+
+<P>
+Ideally, Snort Inline will be run using only its own drop.rules.  If
+you want to use Snort for just alerting, a separate process should be
+running with its own rule set.
+
+<P>
+
+<H2><A ID="SECTION00256000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">6</SPAN> Using the Honeynet Snort Inline Toolkit</A>
+</H2>
+
+<P>
+The Honeynet Snort Inline Toolkit is a statically compiled <SPAN  CLASS="texttt">Snort Inline</SPAN> 
+binary put together by the
+Honeynet Project for the Linux operating system.  It comes with a set
+of drop.rules, the <SPAN  CLASS="texttt">Snort Inline</SPAN> binary, a snort-inline rotation shell
+script, and a good README.  It can be found at:
+
+<P>
+http://www.honeynet.org/papers/honeynet/tools/
+
+<P>
+
+<H2><A ID="SECTION00257000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">7</SPAN> Troubleshooting Snort Inline</A>
+</H2>
+
+<P>
+If you run Snort Inline and see something like this:
+<PRE>
+Initializing Output Plugins!
+Reading from iptables
+Log directory = /var/log/snort
+Initializing Inline mode
+InlineInit: : Failed to send netlink message: Connection refused
+</PRE>
+More than likely, the ip_queue module is not loaded or ip_queue 
+support is not compiled into your kernel.  Either recompile
+your kernel to support ip_queue, or load the module.
+
+<P>
+The ip_queue module is loaded by executing:
+<PRE>
+insmod ip_queue
+</PRE>
+Also, if you want to ensure Snort Inline is getting packets, you can 
+start it in the following manner:
+<PRE>
+snort_inline -Qvc &lt;configuration file&gt;
+</PRE>
+This will display the header of every packet that Snort Inline sees. 
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="node8.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node6.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html321"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node8.html">1.6 Miscellaneous</A>
+<B> Up:</B> <A
+ HREF="node2.html">1. Snort Overview</A>
+<B> Previous:</B> <A
+ HREF="node6.html">1.4 Network Intrusion Detection System</A>
+ &nbsp; <B>  <A ID="tex2html322"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

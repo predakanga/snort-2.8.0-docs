@@ -1,0 +1,270 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>3. Writing Snort Rules: How to Write Snort Rules and Keep Your Sanity</TITLE>
+<META NAME="description" CONTENT="3. Writing Snort Rules: How to Write Snort Rules and Keep Your Sanity">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="next" HREF="node28.html">
+<LINK REL="previous" HREF="node10.html">
+<LINK REL="next" HREF="node17.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node17.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="snort_manual.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node15.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html496"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node17.html">3.1 The Basics</A>
+<B> Up:</B> <A
+ HREF="snort_manual.html">Snort<SUP>TM</SUP>Users Manual 2.8.0</A>
+<B> Previous:</B> <A
+ HREF="node15.html">2.5 Dynamic Modules</A>
+ &nbsp; <B>  <A ID="tex2html497"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A ID="SECTION00400000000000000000"></A><A ID="Writing_Snort_Rules"></A>
+<BR>
+<SPAN CLASS="arabic">3</SPAN>. Writing Snort Rules: 
+<BR>
+How to Write Snort Rules and Keep Your Sanity
+</H1>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A ID="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A ID="tex2html498"
+  HREF="node17.html"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN> The Basics</A>
+<LI><A ID="tex2html499"
+  HREF="node18.html"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN> Rules Headers</A>
+<UL>
+<LI><A ID="tex2html500"
+  HREF="node18.html#SECTION00421000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN> Rule Actions </A>
+<LI><A ID="tex2html501"
+  HREF="node18.html#SECTION00422000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">2</SPAN> Protocols</A>
+<LI><A ID="tex2html502"
+  HREF="node18.html#SECTION00423000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">3</SPAN> IP Addresses</A>
+<LI><A ID="tex2html503"
+  HREF="node18.html#SECTION00424000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN> Port Numbers</A>
+<LI><A ID="tex2html504"
+  HREF="node18.html#SECTION00425000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">5</SPAN> The Direction Operator</A>
+<LI><A ID="tex2html505"
+  HREF="node18.html#SECTION00426000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">6</SPAN> Activate/Dynamic Rules </A>
+</UL>
+<BR>
+<LI><A ID="tex2html506"
+  HREF="node19.html"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">3</SPAN> Rule Options</A>
+<LI><A ID="tex2html507"
+  HREF="node20.html"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN> General Rule Options</A>
+<UL>
+<LI><A ID="tex2html508"
+  HREF="node20.html#SECTION00441000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> msg</A>
+<LI><A ID="tex2html509"
+  HREF="node20.html#SECTION00442000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN> reference</A>
+<LI><A ID="tex2html510"
+  HREF="node20.html#SECTION00443000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">3</SPAN> gid</A>
+<LI><A ID="tex2html511"
+  HREF="node20.html#SECTION00444000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN> sid</A>
+<LI><A ID="tex2html512"
+  HREF="node20.html#SECTION00445000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN> rev </A>
+<LI><A ID="tex2html513"
+  HREF="node20.html#SECTION00446000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN> classtype</A>
+<LI><A ID="tex2html514"
+  HREF="node20.html#SECTION00447000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">7</SPAN> priority</A>
+<LI><A ID="tex2html515"
+  HREF="node20.html#SECTION00448000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">8</SPAN> metadata</A>
+<LI><A ID="tex2html516"
+  HREF="node20.html#SECTION00449000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">9</SPAN> General Rule Quick Reference</A>
+</UL>
+<BR>
+<LI><A ID="tex2html517"
+  HREF="node21.html"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN> Payload Detection Rule Options</A>
+<UL>
+<LI><A ID="tex2html518"
+  HREF="node21.html#SECTION00451000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> content</A>
+<LI><A ID="tex2html519"
+  HREF="node21.html#SECTION00452000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> nocase</A>
+<LI><A ID="tex2html520"
+  HREF="node21.html#SECTION00453000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">3</SPAN> rawbytes </A>
+<LI><A ID="tex2html521"
+  HREF="node21.html#SECTION00454000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">4</SPAN> depth</A>
+<LI><A ID="tex2html522"
+  HREF="node21.html#SECTION00455000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">5</SPAN> offset</A>
+<LI><A ID="tex2html523"
+  HREF="node21.html#SECTION00456000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">6</SPAN> distance</A>
+<LI><A ID="tex2html524"
+  HREF="node21.html#SECTION00457000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">7</SPAN> within</A>
+<LI><A ID="tex2html525"
+  HREF="node21.html#SECTION00458000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">8</SPAN> http_client_body</A>
+<LI><A ID="tex2html526"
+  HREF="node21.html#SECTION00459000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">9</SPAN> http_uri</A>
+<LI><A ID="tex2html527"
+  HREF="node21.html#SECTION004510000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">10</SPAN> uricontent</A>
+<LI><A ID="tex2html528"
+  HREF="node21.html#SECTION004511000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">11</SPAN> urilen</A>
+<LI><A ID="tex2html529"
+  HREF="node21.html#SECTION004512000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">12</SPAN> isdataat</A>
+<LI><A ID="tex2html530"
+  HREF="node21.html#SECTION004513000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">13</SPAN> pcre </A>
+<LI><A ID="tex2html531"
+  HREF="node21.html#SECTION004514000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">14</SPAN> byte_test</A>
+<LI><A ID="tex2html532"
+  HREF="node21.html#SECTION004515000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">15</SPAN> byte_jump</A>
+<LI><A ID="tex2html533"
+  HREF="node21.html#SECTION004516000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">16</SPAN> ftpbounce</A>
+<LI><A ID="tex2html534"
+  HREF="node21.html#SECTION004517000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">17</SPAN> asn1</A>
+<LI><A ID="tex2html535"
+  HREF="node21.html#SECTION004518000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">18</SPAN> Payload Detection Quick Reference</A>
+</UL>
+<BR>
+<LI><A ID="tex2html536"
+  HREF="node22.html"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN> Non-Payload Detection Rule Options</A>
+<UL>
+<LI><A ID="tex2html537"
+  HREF="node22.html#SECTION00461000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> fragoffset </A>
+<LI><A ID="tex2html538"
+  HREF="node22.html#SECTION00462000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> ttl</A>
+<LI><A ID="tex2html539"
+  HREF="node22.html#SECTION00463000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN> tos</A>
+<LI><A ID="tex2html540"
+  HREF="node22.html#SECTION00464000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">4</SPAN> id</A>
+<LI><A ID="tex2html541"
+  HREF="node22.html#SECTION00465000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">5</SPAN> ipopts</A>
+<LI><A ID="tex2html542"
+  HREF="node22.html#SECTION00466000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">6</SPAN> fragbits</A>
+<LI><A ID="tex2html543"
+  HREF="node22.html#SECTION00467000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">7</SPAN> dsize</A>
+<LI><A ID="tex2html544"
+  HREF="node22.html#SECTION00468000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">8</SPAN> flags</A>
+<LI><A ID="tex2html545"
+  HREF="node22.html#SECTION00469000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">9</SPAN> flow</A>
+<LI><A ID="tex2html546"
+  HREF="node22.html#SECTION004610000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">10</SPAN> flowbits</A>
+<LI><A ID="tex2html547"
+  HREF="node22.html#SECTION004611000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">11</SPAN> seq</A>
+<LI><A ID="tex2html548"
+  HREF="node22.html#SECTION004612000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">12</SPAN> ack</A>
+<LI><A ID="tex2html549"
+  HREF="node22.html#SECTION004613000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">13</SPAN> window</A>
+<LI><A ID="tex2html550"
+  HREF="node22.html#SECTION004614000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">14</SPAN> itype</A>
+<LI><A ID="tex2html551"
+  HREF="node22.html#SECTION004615000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">15</SPAN> icode</A>
+<LI><A ID="tex2html552"
+  HREF="node22.html#SECTION004616000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">16</SPAN> icmp_id</A>
+<LI><A ID="tex2html553"
+  HREF="node22.html#SECTION004617000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">17</SPAN> icmp_seq</A>
+<LI><A ID="tex2html554"
+  HREF="node22.html#SECTION004618000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">18</SPAN> rpc</A>
+<LI><A ID="tex2html555"
+  HREF="node22.html#SECTION004619000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">19</SPAN> ip_proto</A>
+<LI><A ID="tex2html556"
+  HREF="node22.html#SECTION004620000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">20</SPAN> sameip</A>
+<LI><A ID="tex2html557"
+  HREF="node22.html#SECTION004621000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">21</SPAN> Non-Payload Detection Quick Reference</A>
+</UL>
+<BR>
+<LI><A ID="tex2html558"
+  HREF="node23.html"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN> Post-Detection Rule Options</A>
+<UL>
+<LI><A ID="tex2html559"
+  HREF="node23.html#SECTION00471000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">1</SPAN> logto</A>
+<LI><A ID="tex2html560"
+  HREF="node23.html#SECTION00472000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">2</SPAN> session</A>
+<LI><A ID="tex2html561"
+  HREF="node23.html#SECTION00473000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">3</SPAN> resp</A>
+<LI><A ID="tex2html562"
+  HREF="node23.html#SECTION00474000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">4</SPAN> react</A>
+<LI><A ID="tex2html563"
+  HREF="node23.html#SECTION00475000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">5</SPAN> tag </A>
+<LI><A ID="tex2html564"
+  HREF="node23.html#SECTION00476000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">6</SPAN> activates</A>
+<LI><A ID="tex2html565"
+  HREF="node23.html#SECTION00477000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">7</SPAN> activated_by</A>
+<LI><A ID="tex2html566"
+  HREF="node23.html#SECTION00478000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">8</SPAN> count</A>
+<LI><A ID="tex2html567"
+  HREF="node23.html#SECTION00479000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">9</SPAN> Post-Detection Quick Reference</A>
+</UL>
+<BR>
+<LI><A ID="tex2html568"
+  HREF="node24.html"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN> Event Thresholding</A>
+<UL>
+<LI><A ID="tex2html569"
+  HREF="node24.html#SECTION00481000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">1</SPAN> Standalone Options</A>
+<LI><A ID="tex2html570"
+  HREF="node24.html#SECTION00482000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">2</SPAN> Standalone Format</A>
+<LI><A ID="tex2html571"
+  HREF="node24.html#SECTION00483000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">3</SPAN> Rule Keyword Format</A>
+<LI><A ID="tex2html572"
+  HREF="node24.html#SECTION00484000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">4</SPAN> Rule Keyword Format</A>
+<LI><A ID="tex2html573"
+  HREF="node24.html#SECTION00485000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">5</SPAN> Examples</A>
+</UL>
+<BR>
+<LI><A ID="tex2html574"
+  HREF="node25.html"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">9</SPAN> Event Suppression</A>
+<UL>
+<LI><A ID="tex2html575"
+  HREF="node25.html#SECTION00491000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html576"
+  HREF="node25.html#SECTION00492000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">2</SPAN> Examples</A>
+</UL>
+<BR>
+<LI><A ID="tex2html577"
+  HREF="node26.html"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">10</SPAN> Snort Multi-Event Logging (Event Queue)</A>
+<UL>
+<LI><A ID="tex2html578"
+  HREF="node26.html#SECTION004101000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">10</SPAN>.<SPAN CLASS="arabic">1</SPAN> Event Queue Configuration Options</A>
+<LI><A ID="tex2html579"
+  HREF="node26.html#SECTION004102000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">10</SPAN>.<SPAN CLASS="arabic">2</SPAN> Event Queue Configuration Examples</A>
+</UL>
+<BR>
+<LI><A ID="tex2html580"
+  HREF="node27.html"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">11</SPAN> Writing Good Rules</A>
+<UL>
+<LI><A ID="tex2html581"
+  HREF="node27.html#SECTION004111000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">11</SPAN>.<SPAN CLASS="arabic">1</SPAN> Content Matching</A>
+<LI><A ID="tex2html582"
+  HREF="node27.html#SECTION004112000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">11</SPAN>.<SPAN CLASS="arabic">2</SPAN> Catch the Vulnerability, Not the Exploit</A>
+<LI><A ID="tex2html583"
+  HREF="node27.html#SECTION004113000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">11</SPAN>.<SPAN CLASS="arabic">3</SPAN> Catch the Oddities of the Protocol in the Rule</A>
+<LI><A ID="tex2html584"
+  HREF="node27.html#SECTION004114000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">11</SPAN>.<SPAN CLASS="arabic">4</SPAN> Optimizing Rules</A>
+<LI><A ID="tex2html585"
+  HREF="node27.html#SECTION004115000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">11</SPAN>.<SPAN CLASS="arabic">5</SPAN> Testing Numerical Values </A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+
+</BODY>
+</HTML>

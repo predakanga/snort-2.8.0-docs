@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>1.6 Miscellaneous</TITLE>
+<META NAME="description" CONTENT="1.6 Miscellaneous">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="next" HREF="node9.html">
+<LINK REL="previous" HREF="node7.html">
+<LINK REL="next" HREF="node9.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node9.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node7.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html330"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node9.html">1.7 More Information</A>
+<B> Up:</B> <A
+ HREF="node2.html">1. Snort Overview</A>
+<B> Previous:</B> <A
+ HREF="node7.html">1.5 Inline Mode</A>
+ &nbsp; <B>  <A ID="tex2html331"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A ID="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A ID="tex2html332"
+  HREF="node8.html#SECTION00261000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> Running in Daemon Mode</A>
+<UL>
+<LI><A ID="tex2html333"
+  HREF="node8.html#SECTION00261100000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> Snort PID File</A>
+</UL>
+<BR>
+<LI><A ID="tex2html334"
+  HREF="node8.html#SECTION00262000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> Obfuscating IP Address Printouts</A>
+<LI><A ID="tex2html335"
+  HREF="node8.html#SECTION00263000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN> Specifying Multiple-Instance Identifiers</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A ID="SECTION00260000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">6</SPAN> Miscellaneous</A>
+</H1>
+
+<P>
+
+<H2><A ID="SECTION00261000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> Running in Daemon Mode</A>
+</H2>
+
+<P>
+If you want to run Snort in daemon mode, you can the add -D switch to any
+combination described in the previous sections. Please notice that if you want to be able to restart Snort
+by sending a SIGHUP signal to the daemon, you <EM>must</EM> specify the full path to the Snort
+binary when you start it, for example:
+
+<P>
+<DIV class="CENTER">
+</DIV><PRE>
+/usr/local/bin/snort -d -h 192.168.1.0/24 \
+    -l /var/log/snortlogs -c /usr/local/etc/snort.conf -s -D
+</PRE>
+<DIV class="CENTER">
+</DIV>
+
+<P>
+Relative paths are not supported due to security concerns.
+
+<P>
+
+<H3><A ID="SECTION00261100000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> Snort PID File</A>
+</H3>
+
+<P>
+When Snort is run in daemon mode, the daemon creates a PID file in
+the log directory.  In Snort 2.6, the <SPAN  CLASS="texttt">&ndash;pid-path</SPAN> command line
+switch causes Snort to write the PID file in the directory specified.
+
+<P>
+Additionally, the <SPAN  CLASS="texttt">&ndash;create-pidfile</SPAN> switch can be used to
+force creation of a PID file even when not running in daemon mode.
+
+<P>
+The PID file will be locked so that other snort processes cannot
+start.  Use the <SPAN  CLASS="texttt">&ndash;nolock-pidfile</SPAN> switch to not lock the
+PID file.
+
+<P>
+
+<H2><A ID="SECTION00262000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> Obfuscating IP Address Printouts</A>
+</H2>
+
+<P>
+If you need to post packet logs to public mailing lists, you might
+want to use the -O switch. This switch obfuscates your IP addresses in
+packet printouts. This is handy if you don't want people on the mailing
+list to know the IP addresses involved. You can also combine the -O switch with
+the -h switch to only obfuscate the IP addresses of hosts on the home network.
+This is useful if you don't care who sees the address of the attacking host.
+For example, you could use the following command to read the packets from a log 
+file and dump them to the screen, obfuscating only the addresses from the 
+192.168.1.0/24 class C network:
+
+<P>
+<DIV class="CENTER">
+</DIV><PRE>
+./snort -d -v -r snort.log -O -h 192.168.1.0/24
+</PRE>
+<DIV class="CENTER">
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00263000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN> Specifying Multiple-Instance Identifiers</A>
+</H2>
+
+<P>
+In Snort v2.4, the <SPAN  CLASS="texttt">-G</SPAN> command line option was added that specifies
+an instance identifier for the event logs.  This option can be used when
+running multiple instances of snort, either on different CPUs, or on the same
+CPU but a different interface.  Each Snort instance will use the value
+specified to generate unique event IDs.  Users can specify either a
+decimal value (<SPAN  CLASS="texttt">-G 1</SPAN>) or hex value preceded by 0x (<SPAN  CLASS="texttt">-G 0x11</SPAN>).
+This is also supported via a long option <SPAN  CLASS="texttt">&ndash;logid</SPAN>.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="node9.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node7.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html330"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node9.html">1.7 More Information</A>
+<B> Up:</B> <A
+ HREF="node2.html">1. Snort Overview</A>
+<B> Previous:</B> <A
+ HREF="node7.html">1.5 Inline Mode</A>
+ &nbsp; <B>  <A ID="tex2html331"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

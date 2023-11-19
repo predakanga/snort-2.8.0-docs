@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>5. Dynamic Modules</TITLE>
+<META NAME="description" CONTENT="5. Dynamic Modules">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="next" HREF="node34.html">
+<LINK REL="previous" HREF="node28.html">
+<LINK REL="next" HREF="node31.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node31.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="snort_manual.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node29.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html789"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node31.html">5.1 Data Structures</A>
+<B> Up:</B> <A
+ HREF="snort_manual.html">Snort<SUP>TM</SUP>Users Manual 2.8.0</A>
+<B> Previous:</B> <A
+ HREF="node29.html">4.1 MMAPed pcap</A>
+ &nbsp; <B>  <A ID="tex2html790"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A ID="SECTION00600000000000000000"></A><A ID="Dynamic_Modules"></A>
+<BR>
+<SPAN CLASS="arabic">5</SPAN>. Dynamic Modules
+</H1>
+
+<P>
+Preprocessors, detection capabilities, and rules can now be developed as 
+dynamically loadable module to snort.  When enabled via the
+<EM>&ndash;enable-dynamicplugin</EM> configure option, the dynamic
+API presents a means for loading dynamic libraries and allowing the 
+module to utilize certain functions within the main snort code.
+
+<P>
+The remainder of this chapter will highlight the data structures
+and API functions used in developing preprocessors, detection engines,
+and rules as a dynamic plugin to snort.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A ID="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A ID="tex2html791"
+  HREF="node31.html"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Data Structures</A>
+<UL>
+<LI><A ID="tex2html792"
+  HREF="node31.html#SECTION00611000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> DynamicPluginMeta</A>
+<LI><A ID="tex2html793"
+  HREF="node31.html#SECTION00612000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">2</SPAN> DynamicPreprocessorData</A>
+<LI><A ID="tex2html794"
+  HREF="node31.html#SECTION00613000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">3</SPAN> DynamicEngineData</A>
+<LI><A ID="tex2html795"
+  HREF="node31.html#SECTION00614000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">4</SPAN> SFSnortPacket</A>
+<LI><A ID="tex2html796"
+  HREF="node31.html#SECTION00615000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN> Dynamic Rules</A>
+</UL>
+<BR>
+<LI><A ID="tex2html797"
+  HREF="node32.html"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> Required Functions</A>
+<UL>
+<LI><A ID="tex2html798"
+  HREF="node32.html#SECTION00621000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN> Preprocessors</A>
+<LI><A ID="tex2html799"
+  HREF="node32.html#SECTION00622000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">2</SPAN> Detection Engine</A>
+<LI><A ID="tex2html800"
+  HREF="node32.html#SECTION00623000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">3</SPAN> Rules</A>
+</UL>
+<BR>
+<LI><A ID="tex2html801"
+  HREF="node33.html"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">3</SPAN> Examples</A>
+<UL>
+<LI><A ID="tex2html802"
+  HREF="node33.html#SECTION00631000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN> Preprocessor Example</A>
+<LI><A ID="tex2html803"
+  HREF="node33.html#SECTION00632000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN> Rules</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+
+</BODY>
+</HTML>

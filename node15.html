@@ -1,0 +1,213 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>2.5 Dynamic Modules</TITLE>
+<META NAME="description" CONTENT="2.5 Dynamic Modules">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="previous" HREF="node14.html">
+<LINK REL="next" HREF="node16.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node16.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node10.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node14.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html492"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node16.html">3. Writing Snort Rules: How</A>
+<B> Up:</B> <A
+ HREF="node10.html">2. Configuring Snort</A>
+<B> Previous:</B> <A
+ HREF="node14.html">2.4 Output Modules</A>
+ &nbsp; <B>  <A ID="tex2html493"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A ID="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A ID="tex2html494"
+  HREF="node15.html#SECTION00351000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+<LI><A ID="tex2html495"
+  HREF="node15.html#SECTION00352000000000000000"><SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> Directives</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A ID="SECTION00350000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">5</SPAN> Dynamic Modules</A>
+</H1>
+
+<P>
+Dynamically loadable modules were introduced with Snort 2.6.  They can
+be loaded via directives in <SPAN  CLASS="texttt">snort.conf</SPAN> or via command-line options.
+
+<P>
+
+        
+        <p><table border="1"><tr><td><b>
+        Note:&nbsp;&nbsp;</b>
+To use dynamic modules, Snort must be configured with the
+&ndash;enable-dynamicplugin flag.
+        
+        </b></td></tr></table></p>
+
+<P>
+
+<H2><A ID="SECTION00351000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Format</A>
+</H2>
+
+<P>
+<DIV class="CENTER">
+</DIV><PRE>
+&lt;directive&gt; &lt;parameters&gt;
+</PRE>
+<DIV class="CENTER">
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00352000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> Directives</A>
+</H2>
+<BR><P></P>
+<DIV class="CENTER">
+
+<DIV class="CENTER">
+<A ID="1767"></A>
+<TABLE class="PAD  BORDER" style="">
+<CAPTION><STRONG>Table:</STRONG>
+Dynamic Directives</CAPTION>
+<TR><TD CLASS="LEFT"><B>Directive</B></TD>
+<TD CLASS="LEFT"><B>Syntax</B></TD>
+<TD CLASS="LEFT"><B>Description</B></TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">dynamicpreprocessor</SPAN></TD>
+<TD CLASS="LEFT"><SPAN  CLASS="texttt">dynamicpreprocessor <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img37.svg"
+ ALT="$[$"></SPAN> file <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>shared library path<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN> <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img5.svg"
+ ALT="$\vert$"></SPAN> directory <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>directory of shared libraries<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN> <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img38.svg"
+ ALT="$]$"></SPAN></SPAN></TD>
+<TD CLASS="LEFT">Tells snort to load the dynamic preprocessor shared library (if file is used) or all dynamic preprocessor shared libraries (if directory is used).  Specify 'file', followed by the full or relative path to the shared library.  Or, specify 'directory', followed by the full or relative path to a directory of preprocessor shared libraries.  (Same effect as <SPAN  CLASS="texttt">&ndash;dynamic-preprocessor-lib</SPAN> or <SPAN  CLASS="texttt">&ndash;dynamic-preprocessor-lib-dir</SPAN> options).  See chapter <A HREF="node30.html#Dynamic_Modules"><IMG  ALT="[*]" SRC="crossref.png"></A> for more information on dynamic preprocessor libraries.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">dynamicengine</SPAN></TD>
+<TD CLASS="LEFT"><SPAN  CLASS="texttt">dynamicengine <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img37.svg"
+ ALT="$[$"></SPAN> file <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>shared library path<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN> <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img5.svg"
+ ALT="$\vert$"></SPAN> directory <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>directory of shared libraries<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN> <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img38.svg"
+ ALT="$]$"></SPAN></SPAN></TD>
+<TD CLASS="LEFT">Tells snort to load the dynamic engine shared library (if file is used) or all dynamic engine shared libraries (if directory is used).  Specify 'file', followed by the full or relative path to the shared library.  Or, specify 'directory', followed by the full or relative path to a directory of preprocessor shared libraries.  (Same effect as <SPAN  CLASS="texttt">&ndash;dynamic-engine-lib</SPAN> or <SPAN  CLASS="texttt">&ndash;dynamic-preprocessor-lib-dir</SPAN> options).  See chapter <A HREF="node30.html#Dynamic_Modules"><IMG  ALT="[*]" SRC="crossref.png"></A> for more information on dynamic engine libraries.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+<TR><TD CLASS="LEFT"><SPAN  CLASS="texttt">dynamicdetection</SPAN></TD>
+<TD CLASS="LEFT"><SPAN  CLASS="texttt">dynamicdetection <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img37.svg"
+ ALT="$[$"></SPAN> file <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>shared library path<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN> <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img5.svg"
+ ALT="$\vert$"></SPAN> directory <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>directory of shared libraries<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN> <SPAN CLASS="MATH"><IMG
+ STYLE="height: 2.78ex; vertical-align: -0.70ex; " SRC="img38.svg"
+ ALT="$]$"></SPAN></SPAN></TD>
+<TD CLASS="LEFT">Tells snort to load the dynamic detection rules shared library (if file is used) or all dynamic detection rules shared libraries (if directory is used).  Specify 'file', followed by the full or relative path to the shared library.  Or, specify 'directory', followed by the full or relative path to a directory of detection rules shared libraries.  (Same effect as <SPAN  CLASS="texttt">&ndash;dynamic-detection-lib</SPAN> or <SPAN  CLASS="texttt">&ndash;dynamic-detection-lib-dir</SPAN> options).  See chapter <A HREF="node30.html#Dynamic_Modules"><IMG  ALT="[*]" SRC="crossref.png"></A> for more information on dynamic detection rules libraries.</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+<TD CLASS="LEFT">&nbsp;</TD>
+<TD CLASS="LEFT TOP"  WIDTH=207>&nbsp;</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+<BR>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="node16.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node10.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node14.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html492"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node16.html">3. Writing Snort Rules: How</A>
+<B> Up:</B> <A
+ HREF="node10.html">2. Configuring Snort</A>
+<B> Previous:</B> <A
+ HREF="node14.html">2.4 Output Modules</A>
+ &nbsp; <B>  <A ID="tex2html493"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>3.10 Snort Multi-Event Logging (Event Queue)</TITLE>
+<META NAME="description" CONTENT="3.10 Snort Multi-Event Logging (Event Queue)">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="next" HREF="node27.html">
+<LINK REL="previous" HREF="node25.html">
+<LINK REL="next" HREF="node27.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node27.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node25.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html773"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node27.html">3.11 Writing Good Rules</A>
+<B> Up:</B> <A
+ HREF="node16.html">3. Writing Snort Rules: How</A>
+<B> Previous:</B> <A
+ HREF="node25.html">3.9 Event Suppression</A>
+ &nbsp; <B>  <A ID="tex2html774"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A ID="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A ID="tex2html775"
+  HREF="node26.html#SECTION004101000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">10</SPAN>.<SPAN CLASS="arabic">1</SPAN> Event Queue Configuration Options</A>
+<LI><A ID="tex2html776"
+  HREF="node26.html#SECTION004102000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">10</SPAN>.<SPAN CLASS="arabic">2</SPAN> Event Queue Configuration Examples</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A ID="SECTION004100000000000000000"></A><A ID="eventqueue"></A>
+<BR>
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">10</SPAN> Snort Multi-Event Logging (Event Queue)
+</H1>
+
+<P>
+Snort supports logging multiple events per packet/stream that are prioritized
+with different insertion methods, such as max content length or event
+ordering using the event queue.
+
+<P>
+The general configuration of the event queue is as follows:
+
+<P>
+<PRE>
+config event_queue: [max_queue [size]] [log [size]] [order_events [TYPE]]
+</PRE>
+
+<P>
+
+<H2><A ID="SECTION004101000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">10</SPAN>.<SPAN CLASS="arabic">1</SPAN> Event Queue Configuration Options</A>
+</H2>
+
+<P>
+There are three configuration options to the configuration parameter
+'event_queue'.
+
+<P>
+ 
+<DL class="COMPACT">
+ <DT> <B><SPAN CLASS="arabic">81</SPAN>.</B> 
+<DD><SPAN  CLASS="texttt">max_queue</SPAN>
+
+<P>
+This determines the maximum size of the event queue.  For example, if the
+event queue has a max size of 8, only 8 events will be stored for a single
+packet or stream.
+
+<P>
+The default value is 8.
+
+<P>
+<DT> <B><SPAN CLASS="arabic">82</SPAN>.</B> 
+<DD><SPAN  CLASS="texttt">log</SPAN>
+
+<P>
+This determines the number of events to log for a given packet or stream.
+You can't log more than the max_event number that was specified.
+
+<P>
+The default value is 3.
+
+<P>
+<DT> <B><SPAN CLASS="arabic">83</SPAN>.</B> 
+<DD><SPAN  CLASS="texttt">order_events</SPAN>
+
+<P>
+This argument determines the way that the incoming events are ordered.  We
+currently have two different methods:
+
+<P>
+
+<UL>
+<LI><SPAN  CLASS="texttt">priority</SPAN> - The highest priority (1 being the highest) events are ordered
+    first.
+
+<P>
+</LI>
+<LI><SPAN  CLASS="texttt">content_length</SPAN> - Rules are ordered before decode or preprocessor alerts,
+    and rules that have a longer content are ordered before rules with
+    shorter contents.
+</LI>
+</UL>
+
+<P>
+The method in which events are ordered does not affect rule types such as
+pass, alert, log, etc.
+
+<P>
+The default value is content_length. 
+</DD>
+</DL>
+<H2><A ID="SECTION004102000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">10</SPAN>.<SPAN CLASS="arabic">2</SPAN> Event Queue Configuration Examples</A>
+</H2>
+
+<P>
+The default configuration:
+<PRE>
+config event_queue: max_queue 8 log 3 order_events content_length
+</PRE>
+
+<P>
+Example of a reconfigured event queue:
+<PRE>
+config event_queue: max_queue 10 log 3 order_events content_length
+</PRE>
+
+<P>
+Use the default event queue values, but change event order:
+<PRE>
+config event_queue: order_events priority
+</PRE>
+
+<P>
+Use the default event queue values but change the number of logged events:
+<PRE>
+config event_queue: log 2
+</PRE>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="node27.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node25.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html773"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node27.html">3.11 Writing Good Rules</A>
+<B> Up:</B> <A
+ HREF="node16.html">3. Writing Snort Rules: How</A>
+<B> Previous:</B> <A
+ HREF="node25.html">3.9 Event Suppression</A>
+ &nbsp; <B>  <A ID="tex2html774"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

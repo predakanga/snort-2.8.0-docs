@@ -1,0 +1,439 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>3.2 Rules Headers</TITLE>
+<META NAME="description" CONTENT="3.2 Rules Headers">
+<META NAME="keywords" CONTENT="snort_manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="snort_manual.css">
+
+<LINK REL="next" HREF="node19.html">
+<LINK REL="previous" HREF="node17.html">
+<LINK REL="next" HREF="node19.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node19.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node17.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html588"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node19.html">3.3 Rule Options</A>
+<B> Up:</B> <A
+ HREF="node16.html">3. Writing Snort Rules: How</A>
+<B> Previous:</B> <A
+ HREF="node17.html">3.1 The Basics</A>
+ &nbsp; <B>  <A ID="tex2html589"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A ID="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A ID="tex2html590"
+  HREF="node18.html#SECTION00421000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN> Rule Actions </A>
+<LI><A ID="tex2html591"
+  HREF="node18.html#SECTION00422000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">2</SPAN> Protocols</A>
+<LI><A ID="tex2html592"
+  HREF="node18.html#SECTION00423000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">3</SPAN> IP Addresses</A>
+<LI><A ID="tex2html593"
+  HREF="node18.html#SECTION00424000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN> Port Numbers</A>
+<LI><A ID="tex2html594"
+  HREF="node18.html#SECTION00425000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">5</SPAN> The Direction Operator</A>
+<LI><A ID="tex2html595"
+  HREF="node18.html#SECTION00426000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">6</SPAN> Activate/Dynamic Rules </A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A ID="SECTION00420000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN> Rules Headers</A>
+</H1>
+
+<P>
+
+<H2><A ID="SECTION00421000000000000000"></A><A ID="rules_action_section"></A>
+<BR>
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN> Rule Actions 
+</H2>
+
+<P>
+The rule header contains the information that defines the who,
+where, and what of a packet, as well as what to do in the
+event that a packet with all the attributes indicated in the rule
+should show up. The first item in a rule is the rule action. The rule
+action tells Snort what to do when it finds a packet that matches
+the rule criteria. There are 5 available default actions in Snort,
+alert, log, pass, activate, and dynamic. In addition, if you are running
+Snort in inline mode, you have additional options which include drop, reject, and sdrop. 
+
+<P>
+
+<OL>
+<LI>alert - generate an alert using the selected alert method, and then
+log the packet 
+</LI>
+<LI>log - log the packet 
+</LI>
+<LI>pass - ignore the packet 
+</LI>
+<LI>activate - alert and then turn on another dynamic rule  
+</LI>
+<LI>dynamic - remain idle until activated by an activate rule , then act
+as a log rule
+</LI>
+<LI>drop - make iptables drop the packet and log the packet
+</LI>
+<LI>reject - make iptables drop the packet, log it, and then send a 
+TCP reset if the protocol is TCP or an ICMP port unreachable message if the 
+protocol is UDP.
+</LI>
+<LI>sdrop - make iptables drop the packet but does not log it.
+</LI>
+</OL>
+You can also define your own rule types and associate one or more
+output plugins with them. You can then use the rule types as actions
+in Snort rules.
+
+<P>
+This example will create a type that will log to just tcpdump:
+
+<P>
+<PRE>
+ruletype suspicious
+{
+    type log 
+    output log_tcpdump: suspicious.log
+}
+</PRE>
+
+<P>
+This example will create a rule type that will log to syslog and a
+MySQL database:
+
+<P>
+<DIV class="CENTER">
+</DIV><PRE>
+ruletype redalert
+{
+      type alert 
+      output alert_syslog: LOG_AUTH LOG_ALERT 
+      output database: log, mysql, user=snort dbname=snort host=localhost 
+}
+</PRE>
+<DIV class="CENTER">
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00422000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">2</SPAN> Protocols</A>
+</H2>
+
+<P>
+The next field in a rule is the protocol. There are four protocols
+that Snort currently analyzes for suspicious behavior &ndash; TCP, UDP,
+ICMP, and IP. In the future there may be more, such as ARP, IGRP,
+GRE, OSPF, RIP, IPX, etc.
+
+<P>
+
+<H2><A ID="SECTION00423000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">3</SPAN> IP Addresses</A>
+</H2>
+
+<P>
+The next portion of the rule header deals with the IP address and
+port information for a given rule. The keyword any
+may be used to define any address. Snort does not have a mechanism
+to provide host name lookup for the IP address fields in the rules
+file. The addresses are formed by a straight numeric IP address and
+a CIDR[<A
+ HREF="node38.html#cidrnotation">3</A>] block. The CIDR block indicates the netmask
+that should be applied to the rule's address and any incoming packets
+that are tested against the rule. A CIDR block mask of /24 indicates
+a Class C network, /16 a Class B network, and /32 indicates a specific
+machine address. For example, the address/CIDR combination 192.168.1.0/24
+would signify the block of addresses from 192.168.1.1 to 192.168.1.255.
+Any rule that used this designation for, say, the destination address
+would match on any address in that range. The CIDR designations give
+us a nice short-hand way to designate large address spaces with just
+a few characters.
+
+<P>
+In Figure <A HREF="node17.html#Sample_Snort_Rule"><IMG  ALT="[*]" SRC="crossref.png"></A>, the source IP address was set
+to match for any computer talking, and the destination address was
+set to match on the 192.168.1.0 Class C network.
+
+<P>
+There is an operator that can be applied to IP addresses, the negation
+operator. This operator tells Snort to match any IP address except
+the one indicated by the listed IP address. The negation operator
+is indicated with a !. For example, an easy modification
+to the initial example is to make it alert on any traffic that originates
+outside of the local net with the negation operator as shown in Figure
+<A HREF="#Example_Negation"><IMG  ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+<DIV class="CENTER">
+</DIV>
+<DIV class="CENTER"><A ID="Example_Negation"></A><A ID="3259"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Example IP Address Negation Rule</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 9.08ex; " SRC="img40.svg"
+ ALT="\begin{figure}\begin{verbatim}alert tcp !192.168.1.0/24 any -&gt; 192.168.1.0/24 ...
+...86 a5\vert''; msg: ''external mountd access'';)\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+<DIV class="CENTER">
+</DIV>
+
+<P>
+This rule's IP addresses indicate any tcp packet with a
+source IP address not originating from the internal network and a
+destination address on the internal network.
+
+<P>
+You may also specify lists of IP addresses. An IP list is specified
+by enclosing a comma separated list of IP addresses and CIDR blocks
+within square brackets. For the time being, the IP list may not include
+spaces between the addresses. See Figure <A HREF="#IP_list_usage"><IMG  ALT="[*]" SRC="crossref.png"></A> for
+an example of an IP list in action.
+
+<P>
+<DIV class="CENTER">
+</DIV>
+<DIV class="CENTER"><A ID="IP_list_usage"></A><A ID="3260"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+IP Address Lists</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 11.85ex; " SRC="img41.svg"
+ ALT="\begin{figure}\begin{verbatim}alert tcp ![192.168.1.0/24,10.1.1.0/24] any -&gt; \...
+...a5\vert''; \
+msg: ''external mountd access'';)\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+<DIV class="CENTER">
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00424000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN> Port Numbers</A>
+</H2>
+
+<P>
+Port numbers may be specified in a number of ways, including any
+ports, static port definitions, ranges, and by negation. Any
+ports are a wildcard value, meaning literally any port. Static ports
+are indicated by a single port number, such as 111 for portmapper,
+23 for telnet, or 80 for http, etc. Port ranges are indicated with
+the range operator :. The range operator may be
+applied in a number of ways to take on different meanings, such as
+in Figure <A HREF="#port_range_examples"><IMG  ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+<DIV class="CENTER">
+</DIV>
+<DIV class="CENTER"><A ID="port_range_examples"></A><A ID="3261"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Port Range Examples</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 34.93ex; " SRC="img42.svg"
+ ALT="\begin{figure}\begin{verbatim}log udp any any -&gt; 192.168.1.0/24 1:1024 log udp...
+... or equal to 1024 going
+to ports greater than or equal to 500
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+<DIV class="CENTER">
+</DIV>
+
+<P>
+Port negation is indicated by using the negation operator !.
+The negation operator may be applied against any of the other rule
+types (except any, which would translate to none, how Zen...). For
+example, if for some twisted reason you wanted to log everything except
+the X Windows ports, you could do something like the rule in Figure
+<A HREF="#example_port_negation"><IMG  ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+
+<DIV class="CENTER"><A ID="example_port_negation"></A><A ID="3262"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Example of Port Negation</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 6.30ex; " SRC="img43.svg"
+ ALT="\begin{figure}\begin{verbatim}log tcp any any -&gt; 192.168.1.0/24 !6000:6010\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<P>
+
+<H2><A ID="SECTION00425000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">5</SPAN> The Direction Operator</A>
+</H2>
+
+<P>
+The direction operator -<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img2.svg"
+ ALT="$&gt;$"></SPAN> indicates the orientation,
+or direction, of the traffic that the rule applies
+to. The IP address and port numbers on the left side of the direction
+operator is considered to be the traffic coming from the source host,
+and the address and port information on the right side of the operator
+is the destination host. There is also a bidirectional operator, which
+is indicated with a <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img17.svg"
+ ALT="$&lt;&gt;$"></SPAN> symbol. This tells Snort
+to consider the address/port pairs in either the source or destination
+orientation. This is handy for recording/analyzing both sides of a
+conversation, such as telnet or POP3 sessions. An example of the bidirectional
+operator being used to record both sides of a telnet session is shown
+in Figure <A HREF="#bidirectional_operator"><IMG  ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+Also, note that there is no <SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>- operator. In Snort
+versions before 1.8.7, the direction operator did not have proper
+error checking and many people used an invalid token. The reason the
+<SPAN CLASS="MATH"><IMG
+ STYLE="height: 1.80ex; vertical-align: -0.21ex; " SRC="img1.svg"
+ ALT="$&lt;$"></SPAN>- does not exist is so that rules always read
+consistently.
+
+<P>
+
+<DIV class="CENTER"><A ID="bidirectional_operator"></A><A ID="3263"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Snort rules using the Bidirectional
+Operator</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 6.30ex; " SRC="img44.svg"
+ ALT="\begin{figure}\begin{verbatim}log tcp !192.168.1.0/24 any &lt;&gt; 192.168.1.0/24 23\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A ID="SECTION00426000000000000000"></A><A ID="dynamic_rules"></A>
+<BR>
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">6</SPAN> Activate/Dynamic Rules 
+</H2>
+
+<P>
+
+        
+        <p><table border="1"><tr><td><b>
+        Note:&nbsp;&nbsp;</b>
+Activate and Dynamic rules are being phased out in favor of a combination 
+of tagging (<A HREF="node23.html#tag_section"><IMG  ALT="[*]" SRC="crossref.png"></A>) and flowbits (<A HREF="node22.html#flowbits"><IMG  ALT="[*]" SRC="crossref.png"></A>). 
+        
+        </b></td></tr></table></p>
+
+<P>
+Activate/dynamic rule pairs give Snort a powerful capability. You
+can now have one rule activate another when it's action is performed
+for a set number of packets. This is very useful if you want to set
+Snort up to perform follow on recording when a specific rule goes
+off. Activate rules act just like alert rules, except they
+have a *required* option field: activates.
+Dynamic rules act just like log rules, but they have a different option
+field: activated_by. Dynamic rules have a second
+required field as well, count. 
+
+<P>
+Activate rules are just like alerts but also tell Snort to add a rule
+when a specific network event occurs. Dynamic rules are just like
+log rules except are dynamically enabled when the activate rule id
+goes off. 
+
+<P>
+Put 'em together and they look like Figure <A HREF="#activate_dynamic_rule_example"><IMG  ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+
+<DIV class="CENTER"><A ID="activate_dynamic_rule_example"></A><A ID="3265"></A>
+<TABLE>
+<CAPTION class="BOTTOM"><STRONG>Figure:</STRONG>
+Activate/Dynamic Rule Example</CAPTION>
+<TR><TD><IMG
+ STYLE="height: 14.63ex; " SRC="img45.svg"
+ ALT="\begin{figure}\begin{verbatim}activate tcp !$HOME_NET any -&gt; $HOME_NET 143 (fl...
+... -&gt; $HOME_NET 143 (activated_by: 1; count: 50;)\end{verbatim}
+\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+These rules tell Snort to alert when it detects an IMAP buffer overflow
+and collect the next 50 packets headed for port 143 coming from outside
+$HOME_NET headed to $HOME_NET. If the buffer overflow happened
+and was successful, there's a very good possibility that useful data
+will be contained within the next 50 (or whatever) packets going to
+that same service port on the network, so there's value in collecting
+those packets for later analysis.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="node19.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node17.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html588"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="node19.html">3.3 Rule Options</A>
+<B> Up:</B> <A
+ HREF="node16.html">3. Writing Snort Rules: How</A>
+<B> Previous:</B> <A
+ HREF="node17.html">3.1 The Basics</A>
+ &nbsp; <B>  <A ID="tex2html589"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>
